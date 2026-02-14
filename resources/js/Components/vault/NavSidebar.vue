@@ -52,16 +52,9 @@ function navigate(item) {
     </div>
 
     <!-- Search -->
-    <TooltipProvider :delay-duration="0">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="ghost" size="icon" class="mb-1 h-10 w-10" @click="emit('search')">
-            <PhMagnifyingGlass class="h-5 w-5 text-white" weight="thin" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent side="right"><span>Search <kbd class="ml-1 text-[10px] opacity-60">⌘K</kbd></span></TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Button variant="ghost" size="icon" class="mb-1 h-10 w-10" @click="emit('search')">
+      <PhMagnifyingGlass class="h-5 w-5 text-white" weight="thin" />
+    </Button>
 
     <!-- Navigation -->
     <nav class="flex flex-col items-center gap-1">
@@ -73,7 +66,7 @@ function navigate(item) {
               :class="[
                 'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
                 activeType === item.type
-                  ? 'bg-emerald-300/10 text-emerald-300'
+                  ? 'bg-emerald-400/10 text-emerald-300'
                   : 'text-zinc-400 hover:bg-secondary hover:text-foreground'
               ]"
             >

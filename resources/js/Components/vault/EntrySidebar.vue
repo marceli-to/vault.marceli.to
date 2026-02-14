@@ -113,7 +113,7 @@ function timeAgo(date) {
         :class="[
           'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-all',
           activeType === item.type
-            ? 'bg-emerald-300/10 text-emerald-300'
+            ? 'bg-emerald-400/10 text-emerald-300'
             : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
         ]"
       >
@@ -140,7 +140,7 @@ function timeAgo(date) {
             :class="[
               'flex w-full flex-col gap-0.5 rounded-lg px-3 py-2 text-left transition-all',
               selectedId === entry.id
-                ? 'bg-emerald-300/10 ring-1 ring-emerald-500/20'
+                ? 'bg-emerald-400/10 ring-1 ring-emerald-500/20'
                 : 'hover:bg-secondary/50'
             ]"
           >

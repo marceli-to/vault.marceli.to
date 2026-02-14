@@ -74,7 +74,7 @@ const submit = () => {
 
             <Button
                 type="submit"
-                class="w-full bg-emerald-300 hover:bg-emerald-400 text-white font-medium"
+                class="w-full bg-emerald-400 hover:bg-emerald-500 text-white font-medium"
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/Components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/Components/ui/dialog'
 import { Button } from '@/Components/ui/button'
 import { Input } from '@/Components/ui/input'
 import { Textarea } from '@/Components/ui/textarea'
@@ -16,9 +16,9 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const types = [
-  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-emerald-300 bg-emerald-300/10 border-emerald-500/20' },
-  { value: 'link', label: 'Link', icon: PhLink, color: 'text-emerald-300 bg-emerald-300/10 border-emerald-500/20' },
-  { value: 'note', label: 'Note', icon: PhNote, color: 'text-emerald-300 bg-emerald-300/10 border-emerald-500/20' },
+  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
+  { value: 'link', label: 'Link', icon: PhLink, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
+  { value: 'note', label: 'Note', icon: PhNote, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
 ]
 
 const form = useForm({
@@ -82,6 +82,7 @@ function submit() {
     <DialogContent class="sm:max-w-lg">
       <DialogHeader>
         <DialogTitle>{{ entry ? 'Edit Entry' : 'New Entry' }}</DialogTitle>
+        <DialogDescription class="text-sm text-muted-foreground">{{ entry ? 'Update the details of this entry.' : 'Add a new entry to your vault.' }}</DialogDescription>
       </DialogHeader>
 
       <form @submit.prevent="submit" class="space-y-4">
@@ -118,7 +119,7 @@ function submit() {
             <span
               v-for="tag in form.tags"
               :key="tag"
-              class="inline-flex items-center gap-1 rounded-full bg-emerald-300/10 px-2 py-0.5 text-xs text-emerald-300"
+              class="inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-xs text-emerald-300"
             >
               {{ tag }}
               <button type="button" @click="removeTag(tag)" class="hover:text-emerald-200">&times;</button>
@@ -132,13 +133,13 @@ function submit() {
         </div>
 
         <label class="flex items-center gap-2 text-sm cursor-pointer">
-          <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-zinc-600 data-[state=checked]:bg-emerald-300 data-[state=checked]:border-emerald-600" />
+          <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-zinc-600 data-[state=checked]:bg-emerald-400 data-[state=checked]:border-emerald-600" />
           Pin this entry
         </label>
 
         <DialogFooter>
           <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-          <Button type="submit" :disabled="form.processing || !form.content" class="bg-emerald-300 hover:bg-emerald-400">
+          <Button type="submit" :disabled="form.processing || !form.content" class="bg-emerald-400 hover:bg-emerald-500">
             {{ entry ? 'Update' : 'Create' }}
           </Button>
         </DialogFooter>

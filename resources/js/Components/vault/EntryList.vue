@@ -82,7 +82,7 @@ function timeAgo(date) {
               :class="[
                 'flex w-full flex-col gap-0.5 rounded-lg px-3 py-2.5 text-left transition-all',
                 selectedId === entry.id
-                  ? 'bg-emerald-300/10 ring-1 ring-emerald-500/20'
+                  ? 'bg-emerald-400/10 ring-1 ring-emerald-500/20'
                   : 'hover:bg-secondary/50'
               ]"
             >
