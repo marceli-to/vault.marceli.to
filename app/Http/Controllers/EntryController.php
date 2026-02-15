@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateEntry;
-use App\Actions\DeleteEntry;
-use App\Actions\UpdateEntry;
+use App\Actions\Entry\CreateEntry;
+use App\Actions\Entry\DeleteEntry;
+use App\Actions\Entry\UpdateEntry;
 use App\Http\Requests\StoreEntryRequest;
 use App\Http\Requests\UpdateEntryRequest;
 use App\Models\Entry;

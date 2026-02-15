@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Entry;
 
 use App\Models\Entry;
 use App\Models\User;

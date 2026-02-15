@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateTask;
-use App\Actions\DeleteTask;
-use App\Actions\UpdateTask;
+use App\Actions\Task\CreateTask;
+use App\Actions\Task\DeleteTask;
+use App\Actions\Task\UpdateTask;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
