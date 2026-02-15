@@ -22,9 +22,12 @@ class CreateUser extends Command
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
+        ]);
+
+        $user->forceFill([
             'email_verified_at' => now(),
             'api_token' => 'vlt_' . Str::random(48),
-        ]);
+        ])->save();
 
         $this->info("User '{$user->name}' created (API token: {$user->api_token})");
     }

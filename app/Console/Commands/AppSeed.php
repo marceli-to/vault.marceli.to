@@ -6,7 +6,6 @@ use App\Models\Entry;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
 
 class AppSeed extends Command
 {
@@ -15,6 +14,13 @@ class AppSeed extends Command
 
     public function handle(): void
     {
+        $user = User::first();
+
+        if (! $user) {
+            $this->error('No user found. Run app:create-user first.');
+            return;
+        }
+
         $entries = [
             [
                 'title' => 'Second Brain System',
