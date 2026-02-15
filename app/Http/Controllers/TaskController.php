@@ -6,8 +6,8 @@ use App\Actions\Task\Create as CreateAction;
 use App\Actions\Task\Delete as DeleteAction;
 use App\Actions\Task\Get as GetAction;
 use App\Actions\Task\Update as UpdateAction;
-use App\Http\Requests\StoreTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\Task\StoreRequest as StoreRequest;
+use App\Http\Requests\Task\UpdateRequest as UpdateRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,14 +25,14 @@ class TaskController extends Controller
 		]);
 	}
 
-	public function store(StoreTaskRequest $request)
+	public function store(StoreRequest $request)
 	{
 		(new CreateAction)->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function update(UpdateTaskRequest $request, Task $task)
+	public function update(UpdateRequest $request, Task $task)
 	{
 		(new UpdateAction)->execute($task, $request->validated());
 
