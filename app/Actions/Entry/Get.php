@@ -5,7 +5,7 @@ namespace App\Actions\Entry;
 use App\Models\Entry;
 use App\Models\User;
 
-class Index
+class Get
 {
 	public function execute(User $user, array $filters = []): array
 	{

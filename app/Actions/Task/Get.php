@@ -5,7 +5,7 @@ namespace App\Actions\Task;
 use App\Models\Task;
 use App\Models\User;
 
-class Indexs
+class Gets
 {
 	public function execute(User $user, array $filters = []): array
 	{
