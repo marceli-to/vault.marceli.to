@@ -4,11 +4,11 @@ namespace App\Http\Requests\Entry;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class Store extends FormRequest
 {
 	public function authorize(): bool
 	{
-		return $this->route('entry')->user_id === $this->user()->id;
+		return true;
 	}
 
 	public function rules(): array
