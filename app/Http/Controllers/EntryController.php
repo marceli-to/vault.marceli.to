@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Entry\CreateEntry;
-use App\Actions\Entry\DeleteEntry;
-use App\Actions\Entry\ListEntries;
-use App\Actions\Entry\UpdateEntry;
+use App\Actions\Entry\Create;
+use App\Actions\Entry\Delete;
+use App\Actions\Entry\List as ListAction;
+use App\Actions\Entry\Update;
 use App\Http\Requests\StoreEntryRequest;
 use App\Http\Requests\UpdateEntryRequest;
 use App\Models\Entry;
@@ -17,7 +17,7 @@ class EntryController extends Controller
 	public function index(Request $request)
 	{
 		$filters = $request->only(['search', 'type', 'tag', 'pinned']);
-		$data = (new ListEntries)->execute($request->user(), $filters);
+		$data = (new ListAction)->execute($request->user(), $filters);
 
 		return Inertia::render('Dashboard', [
 			...$data,
@@ -27,14 +27,14 @@ class EntryController extends Controller
 
 	public function store(StoreEntryRequest $request)
 	{
-		(new CreateEntry)->execute($request->user(), $request->validated());
+		(new Create)->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
 	public function update(UpdateEntryRequest $request, Entry $entry)
 	{
-		(new UpdateEntry)->execute($entry, $request->validated());
+		(new Update)->execute($entry, $request->validated());
 
 		return redirect()->back();
 	}
@@ -45,7 +45,7 @@ class EntryController extends Controller
 			abort(403);
 		}
 
-		(new DeleteEntry)->execute($entry);
+		(new Delete)->execute($entry);
 
 		return redirect()->back();
 	}

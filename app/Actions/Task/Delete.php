@@ -4,7 +4,7 @@ namespace App\Actions\Task;
 
 use App\Models\Task;
 
-class DeleteTask
+class Delete
 {
 	public function execute(Task $task): void
 	{

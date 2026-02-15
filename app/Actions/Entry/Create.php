@@ -5,7 +5,7 @@ namespace App\Actions\Entry;
 use App\Models\Entry;
 use App\Models\User;
 
-class CreateEntry
+class Create
 {
 	public function execute(User $user, array $data): Entry
 	{

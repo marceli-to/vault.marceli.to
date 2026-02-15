@@ -5,7 +5,7 @@ namespace App\Actions\Task;
 use App\Models\Task;
 use App\Models\User;
 
-class CreateTask
+class Create
 {
 	public function execute(User $user, array $data): Task
 	{

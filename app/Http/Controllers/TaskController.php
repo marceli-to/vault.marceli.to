@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Task\CreateTask;
-use App\Actions\Task\DeleteTask;
-use App\Actions\Task\ListTasks;
-use App\Actions\Task\UpdateTask;
+use App\Actions\Task\Create;
+use App\Actions\Task\Delete;
+use App\Actions\Task\List as ListAction;
+use App\Actions\Task\Update;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
@@ -17,7 +17,7 @@ class TaskController extends Controller
 	public function index(Request $request)
 	{
 		$filters = $request->only(['status', 'priority']);
-		$data = (new ListTasks)->execute($request->user(), $filters);
+		$data = (new ListAction)->execute($request->user(), $filters);
 
 		return Inertia::render('Tasks', [
 			...$data,
@@ -27,14 +27,14 @@ class TaskController extends Controller
 
 	public function store(StoreTaskRequest $request)
 	{
-		(new CreateTask)->execute($request->user(), $request->validated());
+		(new Create)->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
 	public function update(UpdateTaskRequest $request, Task $task)
 	{
-		(new UpdateTask)->execute($task, $request->validated());
+		(new Update)->execute($task, $request->validated());
 
 		return redirect()->back();
 	}
@@ -45,7 +45,7 @@ class TaskController extends Controller
 			abort(403);
 		}
 
-		(new DeleteTask)->execute($task);
+		(new Delete)->execute($task);
 
 		return redirect()->back();
 	}

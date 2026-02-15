@@ -5,7 +5,7 @@ namespace App\Actions\Task;
 use App\Models\Task;
 use App\Models\User;
 
-class ListTasks
+class Lists
 {
 	public function execute(User $user, array $filters = []): array
 	{

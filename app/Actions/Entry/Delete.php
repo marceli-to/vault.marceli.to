@@ -4,7 +4,7 @@ namespace App\Actions\Entry;
 
 use App\Models\Entry;
 
-class DeleteEntry
+class Delete
 {
 	public function execute(Entry $entry): void
 	{

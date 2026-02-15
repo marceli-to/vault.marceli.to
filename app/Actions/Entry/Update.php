@@ -4,7 +4,7 @@ namespace App\Actions\Entry;
 
 use App\Models\Entry;
 
-class UpdateEntry
+class Update
 {
 	public function execute(Entry $entry, array $data): Entry
 	{
