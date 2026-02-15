@@ -16,6 +16,8 @@ class TaskApiController extends Controller
 
 	public function index(FilterRequest $request)
 	{
+		$perPage = (int) ($request->validated('per_page') ?? 50);
+
 		$query = Task::where('user_id', $request->user()->id);
 
 		if ($status = $request->validated('status')) {
@@ -29,7 +31,7 @@ class TaskApiController extends Controller
 		$tasks = $query->orderByRaw("CASE status WHEN 'in_progress' THEN 0 WHEN 'open' THEN 1 WHEN 'done' THEN 2 END")
 			->orderByRaw("CASE priority WHEN 'high' THEN 0 WHEN 'normal' THEN 1 WHEN 'low' THEN 2 END")
 			->orderByDesc('created_at')
-			->get();
+			->paginate($perPage);
 
 		return response()->json($tasks);
 	}

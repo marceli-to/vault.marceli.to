@@ -9,7 +9,9 @@ class Get
 {
 	public function execute(User $user, array $filters = []): array
 	{
-		$query = Entry::where('user_id', $user->id)
+		$baseQuery = Entry::where('user_id', $user->id);
+
+		$query = (clone $baseQuery)
 			->orderByDesc('is_pinned')
 			->orderByDesc('created_at');
 
@@ -37,7 +39,7 @@ class Get
 			return $entry;
 		});
 
-		$allEntries = Entry::where('user_id', $user->id)
+		$allEntries = (clone $baseQuery)
 			->orderByDesc('created_at')
 			->get()
 			->map(function ($entry) {
@@ -45,15 +47,23 @@ class Get
 				return $entry;
 			});
 
+		$totals = (clone $baseQuery)
+			->selectRaw('COUNT(*) as all_count')
+			->selectRaw("SUM(CASE WHEN type = 'idea' THEN 1 ELSE 0 END) as idea_count")
+			->selectRaw("SUM(CASE WHEN type = 'link' THEN 1 ELSE 0 END) as link_count")
+			->selectRaw("SUM(CASE WHEN type = 'note' THEN 1 ELSE 0 END) as note_count")
+			->selectRaw('SUM(CASE WHEN is_pinned = 1 THEN 1 ELSE 0 END) as pinned_count')
+			->first();
+
 		$counts = [
-			'all' => Entry::where('user_id', $user->id)->count(),
-			'idea' => Entry::where('user_id', $user->id)->where('type', 'idea')->count(),
-			'link' => Entry::where('user_id', $user->id)->where('type', 'link')->count(),
-			'note' => Entry::where('user_id', $user->id)->where('type', 'note')->count(),
-			'pinned' => Entry::where('user_id', $user->id)->where('is_pinned', true)->count(),
+			'all' => (int) ($totals->all_count ?? 0),
+			'idea' => (int) ($totals->idea_count ?? 0),
+			'link' => (int) ($totals->link_count ?? 0),
+			'note' => (int) ($totals->note_count ?? 0),
+			'pinned' => (int) ($totals->pinned_count ?? 0),
 		];
 
-		$tags = Entry::where('user_id', $user->id)
+		$tags = (clone $baseQuery)
 			->whereNotNull('tags')
 			->pluck('tags')
 			->flatten()

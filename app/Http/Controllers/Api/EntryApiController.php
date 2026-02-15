@@ -14,6 +14,8 @@ class EntryApiController extends Controller
 
 	public function index(FilterRequest $request)
 	{
+		$perPage = (int) ($request->validated('per_page') ?? 50);
+
 		$query = Entry::where('user_id', $request->user()->id)
 			->orderByDesc('created_at');
 
@@ -28,7 +30,7 @@ class EntryApiController extends Controller
 			$query->where('type', $type);
 		}
 
-		return response()->json($query->get());
+		return response()->json($query->paginate($perPage));
 	}
 
 	public function show(Entry $entry)

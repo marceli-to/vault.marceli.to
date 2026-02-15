@@ -9,7 +9,9 @@ class Get
 {
 	public function execute(User $user, array $filters = []): array
 	{
-		$query = Task::where('user_id', $user->id);
+		$baseQuery = Task::where('user_id', $user->id);
+
+		$query = clone $baseQuery;
 
 		if ($status = $filters['status'] ?? null) {
 			$query->where('status', $status);
@@ -25,11 +27,18 @@ class Get
 			->orderByDesc('created_at')
 			->get();
 
+		$totals = (clone $baseQuery)
+			->selectRaw('COUNT(*) as all_count')
+			->selectRaw("SUM(CASE WHEN status = 'open' THEN 1 ELSE 0 END) as open_count")
+			->selectRaw("SUM(CASE WHEN status = 'in_progress' THEN 1 ELSE 0 END) as in_progress_count")
+			->selectRaw("SUM(CASE WHEN status = 'done' THEN 1 ELSE 0 END) as done_count")
+			->first();
+
 		$counts = [
-			'all' => Task::where('user_id', $user->id)->count(),
-			'open' => Task::where('user_id', $user->id)->where('status', 'open')->count(),
-			'in_progress' => Task::where('user_id', $user->id)->where('status', 'in_progress')->count(),
-			'done' => Task::where('user_id', $user->id)->where('status', 'done')->count(),
+			'all' => (int) ($totals->all_count ?? 0),
+			'open' => (int) ($totals->open_count ?? 0),
+			'in_progress' => (int) ($totals->in_progress_count ?? 0),
+			'done' => (int) ($totals->done_count ?? 0),
 		];
 
 		return [

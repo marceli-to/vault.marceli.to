@@ -16,6 +16,7 @@ class Filter extends FormRequest
 		return [
 			'status' => 'nullable|in:open,in_progress,done',
 			'priority' => 'nullable|in:low,normal,high',
+			'per_page' => 'nullable|integer|min:1|max:100',
 		];
 	}
 }

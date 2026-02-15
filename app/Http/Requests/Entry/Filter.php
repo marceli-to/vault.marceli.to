@@ -18,6 +18,7 @@ class Filter extends FormRequest
 			'type' => 'nullable|in:idea,link,note',
 			'tag' => 'nullable|string|max:50',
 			'pinned' => 'nullable|boolean',
+			'per_page' => 'nullable|integer|min:1|max:100',
 		];
 	}
 }
