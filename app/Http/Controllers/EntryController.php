@@ -78,27 +78,27 @@ class EntryController extends Controller
 		]);
 	}
 
-	public function store(StoreEntryRequest $request, CreateEntry $action)
+	public function store(StoreEntryRequest $request)
 	{
-		$action->execute($request->user(), $request->validated());
+		(new CreateEntry)->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function update(UpdateEntryRequest $request, Entry $entry, UpdateEntry $action)
+	public function update(UpdateEntryRequest $request, Entry $entry)
 	{
-		$action->execute($entry, $request->validated());
+		(new UpdateEntry)->execute($entry, $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function destroy(Request $request, Entry $entry, DeleteEntry $action)
+	public function destroy(Request $request, Entry $entry)
 	{
 		if ($entry->user_id !== $request->user()->id) {
 			abort(403);
 		}
 
-		$action->execute($entry);
+		(new DeleteEntry)->execute($entry);
 
 		return redirect()->back();
 	}

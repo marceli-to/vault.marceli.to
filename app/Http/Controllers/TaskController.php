@@ -45,27 +45,27 @@ class TaskController extends Controller
 		]);
 	}
 
-	public function store(StoreTaskRequest $request, CreateTask $action)
+	public function store(StoreTaskRequest $request)
 	{
-		$action->execute($request->user(), $request->validated());
+		(new CreateTask)->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function update(UpdateTaskRequest $request, Task $task, UpdateTask $action)
+	public function update(UpdateTaskRequest $request, Task $task)
 	{
-		$action->execute($task, $request->validated());
+		(new UpdateTask)->execute($task, $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function destroy(Request $request, Task $task, DeleteTask $action)
+	public function destroy(Request $request, Task $task)
 	{
 		if ($task->user_id !== $request->user()->id) {
 			abort(403);
 		}
 
-		$action->execute($task);
+		(new DeleteTask)->execute($task);
 
 		return redirect()->back();
 	}
