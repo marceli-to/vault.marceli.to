@@ -6,17 +6,17 @@ use App\Actions\Task\Create as CreateAction;
 use App\Actions\Task\Delete as DeleteAction;
 use App\Actions\Task\Get as GetAction;
 use App\Actions\Task\Update as UpdateAction;
+use App\Http\Requests\Task\Filter as FilterRequest;
 use App\Http\Requests\Task\Store as StoreRequest;
 use App\Http\Requests\Task\Update as UpdateRequest;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-	public function index(Request $request)
+	public function index(FilterRequest $request)
 	{
-		$filters = $request->only(['status', 'priority']);
+		$filters = $request->validated();
 		$data = (new GetAction)->execute($request->user(), $filters);
 
 		return Inertia::render('Tasks', [

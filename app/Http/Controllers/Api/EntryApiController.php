@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Actions\Entry\Create as CreateAction;
 use App\Actions\Entry\Delete as DeleteAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Entry\Filter as FilterRequest;
 use App\Http\Requests\Entry\Store as StoreRequest;
 use App\Models\Entry;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class EntryApiController extends Controller
 {
@@ -17,19 +17,19 @@ class EntryApiController extends Controller
 		return User::first();
 	}
 
-	public function index(Request $request)
+	public function index(FilterRequest $request)
 	{
 		$query = Entry::where('user_id', $this->getUser()->id)
 			->orderByDesc('created_at');
 
-		if ($search = $request->input('search')) {
+		if ($search = $request->validated('search')) {
 			$query->where(function ($q) use ($search) {
 				$q->where('title', 'like', "%{$search}%")
 				  ->orWhere('content', 'like', "%{$search}%");
 			});
 		}
 
-		if ($type = $request->input('type')) {
+		if ($type = $request->validated('type')) {
 			$query->where('type', $type);
 		}
 

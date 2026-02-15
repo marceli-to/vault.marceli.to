@@ -6,17 +6,17 @@ use App\Actions\Entry\Create as CreateAction;
 use App\Actions\Entry\Delete as DeleteAction;
 use App\Actions\Entry\Get as GetAction;
 use App\Actions\Entry\Update as UpdateAction;
+use App\Http\Requests\Entry\Filter as FilterRequest;
 use App\Http\Requests\Entry\Store as StoreRequest;
 use App\Http\Requests\Entry\Update as UpdateRequest;
 use App\Models\Entry;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class EntryController extends Controller
 {
-	public function index(Request $request)
+	public function index(FilterRequest $request)
 	{
-		$filters = $request->only(['search', 'type', 'tag', 'pinned']);
+		$filters = $request->validated();
 		$data = (new GetAction)->execute($request->user(), $filters);
 
 		return Inertia::render('Dashboard', [

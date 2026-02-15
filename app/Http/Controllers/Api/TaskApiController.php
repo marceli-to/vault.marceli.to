@@ -6,11 +6,11 @@ use App\Actions\Task\Create as CreateAction;
 use App\Actions\Task\Delete as DeleteAction;
 use App\Actions\Task\Update as UpdateAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\Filter as FilterRequest;
 use App\Http\Requests\Task\Store as StoreRequest;
 use App\Http\Requests\Task\Update as UpdateRequest;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class TaskApiController extends Controller
 {
@@ -19,15 +19,15 @@ class TaskApiController extends Controller
 		return User::first();
 	}
 
-	public function index(Request $request)
+	public function index(FilterRequest $request)
 	{
 		$query = Task::where('user_id', $this->getUser()->id);
 
-		if ($status = $request->input('status')) {
+		if ($status = $request->validated('status')) {
 			$query->where('status', $status);
 		}
 
-		if ($priority = $request->input('priority')) {
+		if ($priority = $request->validated('priority')) {
 			$query->where('priority', $priority);
 		}
 
