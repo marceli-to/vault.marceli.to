@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Entry\Create as CreateAction;
+use App\Actions\Entry\Delete as DeleteAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Entry\Store as StoreRequest;
 use App\Models\Entry;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,29 +41,16 @@ class EntryApiController extends Controller
 		return response()->json($entry);
 	}
 
-	public function store(Request $request)
+	public function store(StoreRequest $request)
 	{
-		$validated = $request->validate([
-			'title' => 'nullable|string|max:255',
-			'content' => 'required|string',
-			'url' => 'nullable|url|max:2048',
-			'type' => 'required|in:idea,link,note,quote,reference',
-			'tags' => 'nullable|array',
-			'tags.*' => 'string|max:50',
-			'is_pinned' => 'boolean',
-		]);
-
-		$validated['user_id'] = $this->getUser()->id;
-		$validated['tags'] = $validated['tags'] ?? [];
-
-		$entry = Entry::create($validated);
+		$entry = (new CreateAction)->execute($this->getUser(), $request->validated());
 
 		return response()->json($entry, 201);
 	}
 
 	public function destroy(Entry $entry)
 	{
-		$entry->delete();
+		(new DeleteAction)->execute($entry);
 
 		return response()->json(['message' => 'Deleted']);
 	}

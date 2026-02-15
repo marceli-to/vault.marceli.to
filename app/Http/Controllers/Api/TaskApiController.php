@@ -6,6 +6,8 @@ use App\Actions\Task\Create as CreateAction;
 use App\Actions\Task\Delete as DeleteAction;
 use App\Actions\Task\Update as UpdateAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\Store as StoreRequest;
+use App\Http\Requests\Task\Update as UpdateRequest;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,35 +44,16 @@ class TaskApiController extends Controller
 		return response()->json($task);
 	}
 
-	public function store(Request $request)
+	public function store(StoreRequest $request)
 	{
-		$validated = $request->validate([
-			'title' => 'required|string|max:255',
-			'description' => 'nullable|string',
-			'status' => 'sometimes|in:open,in_progress,done',
-			'priority' => 'sometimes|in:low,normal,high',
-			'due_date' => 'nullable|date',
-		]);
-
-		$validated['status'] = $validated['status'] ?? 'open';
-		$validated['priority'] = $validated['priority'] ?? 'normal';
-
-		$task = (new CreateAction)->execute($this->getUser(), $validated);
+		$task = (new CreateAction)->execute($this->getUser(), $request->validated());
 
 		return response()->json($task, 201);
 	}
 
-	public function update(Request $request, Task $task)
+	public function update(UpdateRequest $request, Task $task)
 	{
-		$validated = $request->validate([
-			'title' => 'sometimes|string|max:255',
-			'description' => 'nullable|string',
-			'status' => 'sometimes|in:open,in_progress,done',
-			'priority' => 'sometimes|in:low,normal,high',
-			'due_date' => 'nullable|date',
-		]);
-
-		(new UpdateAction)->execute($task, $validated);
+		(new UpdateAction)->execute($task, $request->validated());
 
 		return response()->json($task->fresh());
 	}
