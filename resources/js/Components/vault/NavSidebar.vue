@@ -29,9 +29,9 @@ function toggleTheme() {
 }
 
 const tagColors = [
-  { dot: 'bg-violet-400', text: 'text-violet-500', activeBg: 'bg-violet-400/10' },
+  { dot: 'bg-amber-400', text: 'text-amber-500', activeBg: 'bg-amber-400/10' },
   { dot: 'bg-cyan-400', text: 'text-cyan-300', activeBg: 'bg-cyan-400/10' },
-  { dot: 'bg-violet-400', text: 'text-violet-500', activeBg: 'bg-violet-400/10' },
+  { dot: 'bg-amber-400', text: 'text-amber-500', activeBg: 'bg-amber-400/10' },
   { dot: 'bg-amber-400', text: 'text-amber-300', activeBg: 'bg-amber-400/10' },
   { dot: 'bg-rose-400', text: 'text-rose-300', activeBg: 'bg-rose-400/10' },
   { dot: 'bg-sky-400', text: 'text-sky-300', activeBg: 'bg-sky-400/10' },
@@ -132,11 +132,11 @@ function switchPage(target) {
 			  :class="[
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				page === 'entries'
-				  ? 'bg-violet-400/10 text-violet-500'
+				  ? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
 				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhStack :class="['h-5 w-5', page === 'entries' ? 'text-violet-500' : 'text-foreground']" weight="thin" />
+			  <PhStack :class="['h-5 w-5', page === 'entries' ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Entries</TooltipContent>
@@ -150,11 +150,11 @@ function switchPage(target) {
 			  :class="[
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				page === 'tasks'
-				  ? 'bg-violet-400/10 text-violet-500'
+				  ? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
 				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhCheckSquare :class="['h-5 w-5', page === 'tasks' ? 'text-violet-500' : 'text-foreground']" weight="thin" />
+			  <PhCheckSquare :class="['h-5 w-5', page === 'tasks' ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Tasks</TooltipContent>
@@ -177,11 +177,11 @@ function switchPage(target) {
 			  :class="[
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				activeType === item.type
-				  ? 'bg-violet-400/10 text-violet-500'
+				  ? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
 				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <component :is="item.icon" :class="['h-5 w-5', activeType === item.type ? 'text-violet-500' : 'text-foreground']" weight="thin" />
+			  <component :is="item.icon" :class="['h-5 w-5', activeType === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">{{ item.label }} ({{ item.count }})</TooltipContent>
@@ -195,11 +195,11 @@ function switchPage(target) {
 			  :class="[
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				showTags || filters?.tag
-				  ? 'bg-violet-400/10 text-violet-500'
+				  ? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
 				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhTag :class="['h-5 w-5', showTags || filters?.tag ? 'text-violet-500' : 'text-foreground']" weight="thin" />
+			  <PhTag :class="['h-5 w-5', showTags || filters?.tag ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Tags</TooltipContent>

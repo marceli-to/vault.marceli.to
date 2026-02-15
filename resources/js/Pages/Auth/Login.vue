@@ -66,7 +66,7 @@ const submit = () => {
 					<input
 						type="checkbox"
 						v-model="form.remember"
-						class="h-4 w-4 rounded border-border bg-background text-violet-600 accent-violet-600 focus:ring-violet-500/20 focus:ring-offset-0"
+						class="h-4 w-4 rounded border-border bg-background text-amber-600 accent-amber-600 focus:ring-amber-500/20 focus:ring-offset-0"
 					/>
 					<span class="text-sm text-muted-foreground">Remember me</span>
 				</label>
@@ -74,7 +74,7 @@ const submit = () => {
 
 			<Button
 				type="submit"
-				class="w-full bg-violet-600 hover:bg-violet-700 text-white font-medium"
+				class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium"
 				:class="{ 'opacity-25': form.processing }"
 				:disabled="form.processing"
 			>

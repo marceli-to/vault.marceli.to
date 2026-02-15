@@ -37,7 +37,7 @@ const emit = defineEmits(['confirm', 'cancel'])
 							'font-medium',
 							variant === 'destructive'
 								? 'bg-red-600 text-white hover:bg-red-700'
-								: 'bg-violet-400 text-white hover:bg-violet-500'
+								: 'bg-amber-400 text-white hover:bg-amber-500'
 						]"
 						@click="emit('confirm')"
 					>

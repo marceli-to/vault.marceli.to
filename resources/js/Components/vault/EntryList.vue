@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { ScrollArea } from '@/Components/ui/scroll-area'
 import { PhPushPin } from '@phosphor-icons/vue'
 import TypeIcon from './TypeIcon.vue'
+import { groupEntriesByDate } from '@/lib/entryGrouping'
 
 const props = defineProps({
   entries: Array,
@@ -12,28 +13,7 @@ const props = defineProps({
 
 const emit = defineEmits(['select'])
 
-function groupEntries(entries) {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1)
-  const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7)
-  const monthAgo = new Date(today); monthAgo.setMonth(monthAgo.getMonth() - 1)
-
-  const groups = { 'Today': [], 'Yesterday': [], 'This Week': [], 'This Month': [], 'Older': [] }
-
-  entries.forEach(entry => {
-	const d = new Date(entry.created_at)
-	if (d >= today) groups['Today'].push(entry)
-	else if (d >= yesterday) groups['Yesterday'].push(entry)
-	else if (d >= weekAgo) groups['This Week'].push(entry)
-	else if (d >= monthAgo) groups['This Month'].push(entry)
-	else groups['Older'].push(entry)
-  })
-
-  return Object.entries(groups).filter(([, items]) => items.length > 0)
-}
-
-const groupedEntries = computed(() => groupEntries(props.entries))
+const groupedEntries = computed(() => groupEntriesByDate(props.entries))
 
 const title = computed(() => {
   if (props.filters?.tag) return `Tagged: ${props.filters.tag}`
@@ -61,7 +41,7 @@ function timeAgo(date) {
 </script>
 
 <template>
-  <div class="flex h-full w-80 flex-col border-r border-border bg-background">
+  <div class="flex h-full w-[25rem] flex-col border-r border-border bg-background">
 	<!-- Header -->
 	<div class="flex items-center justify-between px-4 border-b border-border h-[50px]">
 	  <h2 class="text-sm font-semibold tracking-tight">{{ title }}</h2>
@@ -83,14 +63,14 @@ function timeAgo(date) {
 			  :class="[
 				'flex w-full flex-col gap-0.5 rounded-lg px-3 py-2.5 text-left transition-all',
 				selectedId === entry.id
-				  ? 'bg-violet-400/10 ring-1 ring-violet-500/20'
+				  ? 'bg-amber-500/20 ring-1 ring-amber-500/30 dark:bg-violet-500/15 dark:ring-violet-400/25'
 				  : 'hover:bg-secondary/50'
 			  ]"
 			>
 			  <div class="flex items-center gap-2">
 				<TypeIcon :type="entry.type" class="h-3 w-3 shrink-0" />
-				<span class="truncate text-sm font-medium">{{ entry.title || truncate(entry.content, 40) }}</span>
-				<PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-foreground" weight="thin" />
+				<span :class="['truncate text-sm font-medium', entry.is_pinned ? 'text-yellow-600 dark:text-yellow-400' : '']">{{ entry.title || truncate(entry.content, 40) }}</span>
+				<PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-yellow-600 dark:text-yellow-400" weight="thin" />
 			  </div>
 			  <div class="flex items-center gap-2 pl-5">
 				<span class="truncate text-xs text-muted-foreground">{{ truncate(entry.content, 50) }}</span>

@@ -20,7 +20,7 @@ const statusIcons = {
 const statusColors = {
 	open: 'text-zinc-400',
 	in_progress: 'text-amber-400',
-	done: 'text-violet-500',
+	done: 'text-amber-500',
 }
 
 const priorityIndicator = {
@@ -36,6 +36,13 @@ const title = computed(() => {
 	if (props.filters?.status === 'done') return 'Done'
 	if (props.filters?.priority) return `${props.filters.priority.charAt(0).toUpperCase() + props.filters.priority.slice(1)} Priority`
 	return 'All Tasks'
+})
+
+const tasksWithDue = computed(() => {
+	return props.tasks.map(task => ({
+		task,
+		due: formatDue(task.due_date),
+	}))
 })
 
 function timeAgo(date) {
@@ -64,7 +71,7 @@ function formatDue(date) {
 </script>
 
 <template>
-	<div class="flex h-full w-80 flex-col border-r border-border bg-background">
+	<div class="flex h-full w-[25rem] flex-col border-r border-border bg-background">
 		<!-- Header -->
 		<div class="flex items-center justify-between px-4 border-b border-border h-[50px]">
 			<h2 class="text-sm font-semibold tracking-tight">{{ title }}</h2>
@@ -76,39 +83,39 @@ function formatDue(date) {
 			<div class="px-3 py-2">
 				<div class="space-y-1">
 					<button
-						v-for="task in tasks"
-						:key="task.id"
-						@click="emit('select', task)"
+						v-for="item in tasksWithDue"
+						:key="item.task.id"
+						@click="emit('select', item.task)"
 						:class="[
 							'flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-all',
-							selectedId === task.id
-								? 'bg-violet-400/10 ring-1 ring-violet-500/20'
+							selectedId === item.task.id
+								? 'bg-amber-500/20 ring-1 ring-amber-500/30 dark:bg-violet-500/15 dark:ring-violet-400/25'
 								: 'hover:bg-secondary/50'
 						]"
 					>
 						<!-- Status icon -->
 						<component
-							:is="statusIcons[task.status]"
-							:class="['h-4 w-4 shrink-0 mt-0.5', statusColors[task.status]]"
+							:is="statusIcons[item.task.status]"
+							:class="['h-4 w-4 shrink-0 mt-0.5', statusColors[item.task.status]]"
 							weight="thin"
 						/>
 
 						<div class="flex-1 min-w-0">
 							<div class="flex items-center gap-2">
-								<span :class="['h-1.5 w-1.5 rounded-full shrink-0', priorityIndicator[task.priority]]" />
-								<span :class="['truncate text-sm font-medium', task.status === 'done' ? 'line-through text-muted-foreground' : '']">
-									{{ task.title }}
+								<span :class="['h-1.5 w-1.5 rounded-full shrink-0', priorityIndicator[item.task.priority]]" />
+								<span :class="['truncate text-sm font-medium', item.task.status === 'done' ? 'line-through text-muted-foreground' : '']">
+									{{ item.task.title }}
 								</span>
 							</div>
 							<div class="flex items-center gap-2 mt-0.5 pl-3.5">
-								<span v-if="task.description" class="truncate text-xs text-muted-foreground">
-									{{ task.description.substring(0, 50) }}{{ task.description.length > 50 ? '…' : '' }}
+								<span v-if="item.task.description" class="truncate text-xs text-muted-foreground">
+									{{ item.task.description.substring(0, 50) }}{{ item.task.description.length > 50 ? '…' : '' }}
 								</span>
-								<span class="ml-auto shrink-0 text-[10px] text-muted-foreground/50" v-if="!formatDue(task.due_date)">
-									{{ timeAgo(task.created_at) }}
+								<span class="ml-auto shrink-0 text-[10px] text-muted-foreground/50" v-if="!item.due">
+									{{ timeAgo(item.task.created_at) }}
 								</span>
-								<span v-if="formatDue(task.due_date)" :class="['ml-auto shrink-0 text-[10px]', formatDue(task.due_date).class]">
-									{{ formatDue(task.due_date).text }}
+								<span v-if="item.due" :class="['ml-auto shrink-0 text-[10px]', item.due.class]">
+									{{ item.due.text }}
 								</span>
 							</div>
 						</div>

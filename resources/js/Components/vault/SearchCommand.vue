@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
-import { router } from '@inertiajs/vue3'
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,26 +18,60 @@ const props = defineProps({
 const emit = defineEmits(['update:open', 'select'])
 
 const search = ref('')
-
 const filtered = ref([])
+const indexedEntries = ref([])
+
+const MAX_RESULTS = 10
+const SEARCH_DEBOUNCE_MS = 120
+let searchDebounceId = null
+
+function buildSearchText(entry) {
+  const title = (entry.title || '').toLowerCase()
+  const content = (entry.content || '').toLowerCase()
+  const tags = Array.isArray(entry.tags)
+    ? entry.tags.map(tag => String(tag).toLowerCase()).join(' ')
+    : ''
+
+  return `${title} ${content} ${tags}`
+}
+
+function runSearch(query) {
+  if (!query) {
+    filtered.value = props.entries.slice(0, MAX_RESULTS)
+    return
+  }
+
+  const q = query.toLowerCase()
+  const matches = []
+
+  for (const item of indexedEntries.value) {
+    if (item.searchText.includes(q)) {
+      matches.push(item.entry)
+      if (matches.length >= MAX_RESULTS) break
+    }
+  }
+
+  filtered.value = matches
+}
+
+watch(() => props.entries, (entries) => {
+  indexedEntries.value = entries.map(entry => ({
+    entry,
+    searchText: buildSearchText(entry),
+  }))
+
+  runSearch(search.value)
+}, { immediate: true })
 
 watch(search, (val) => {
-  if (!val) {
-	filtered.value = props.entries.slice(0, 10)
-	return
-  }
-  const q = val.toLowerCase()
-  filtered.value = props.entries.filter(e =>
-	(e.title && e.title.toLowerCase().includes(q)) ||
-	e.content.toLowerCase().includes(q) ||
-	e.tags.some(t => t.toLowerCase().includes(q))
-  ).slice(0, 10)
+  if (searchDebounceId) clearTimeout(searchDebounceId)
+  searchDebounceId = setTimeout(() => runSearch(val), SEARCH_DEBOUNCE_MS)
 })
 
 watch(() => props.open, (val) => {
   if (val) {
-	search.value = ''
-	filtered.value = props.entries.slice(0, 10)
+    search.value = ''
+    runSearch('')
   }
 })
 
@@ -56,7 +89,10 @@ function handleKeydown(e) {
 }
 
 onMounted(() => window.addEventListener('keydown', handleKeydown))
-onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+  if (searchDebounceId) clearTimeout(searchDebounceId)
+})
 </script>
 
 <template>

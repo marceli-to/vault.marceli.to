@@ -16,9 +16,9 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const types = [
-  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
-  { value: 'link', label: 'Link', icon: PhLink, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
-  { value: 'note', label: 'Note', icon: PhNote, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
+  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-amber-500 bg-amber-400/10 border-amber-500/20' },
+  { value: 'link', label: 'Link', icon: PhLink, color: 'text-amber-500 bg-amber-400/10 border-amber-500/20' },
+  { value: 'note', label: 'Note', icon: PhNote, color: 'text-amber-500 bg-amber-400/10 border-amber-500/20' },
 ]
 
 const form = useForm({
@@ -119,10 +119,10 @@ function submit() {
 			<span
 			  v-for="tag in form.tags"
 			  :key="tag"
-			  class="inline-flex items-center gap-1 rounded-full bg-violet-400/10 px-2 py-0.5 text-xs text-violet-500"
+			  class="inline-flex items-center gap-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-xs text-amber-500"
 			>
 			  {{ tag }}
-			  <button type="button" @click="removeTag(tag)" class="hover:text-violet-200">&times;</button>
+			  <button type="button" @click="removeTag(tag)" class="hover:text-amber-200">&times;</button>
 			</span>
 		  </div>
 		  <Input
@@ -133,13 +133,13 @@ function submit() {
 		</div>
 
 		<label class="flex items-center gap-2 text-sm cursor-pointer">
-		  <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-border data-[state=checked]:bg-violet-400 data-[state=checked]:border-violet-600" />
+		  <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-border data-[state=checked]:bg-amber-400 data-[state=checked]:border-amber-600" />
 		  Pin this entry
 		</label>
 
 		<DialogFooter>
 		  <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-violet-600 hover:bg-violet-700">
+		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-amber-600 hover:bg-amber-700">
 			{{ entry ? 'Update' : 'Create' }}
 		  </Button>
 		</DialogFooter>

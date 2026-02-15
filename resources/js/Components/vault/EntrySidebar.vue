@@ -6,6 +6,7 @@ import { ScrollArea } from '@/Components/ui/scroll-area'
 import { Button } from '@/Components/ui/button'
 import { Separator } from '@/Components/ui/separator'
 import TypeIcon from './TypeIcon.vue'
+import { groupEntriesByDate } from '@/lib/entryGrouping'
 
 const props = defineProps({
   entries: Array,
@@ -39,28 +40,7 @@ function navigate(item) {
   router.get(route('dashboard'), params, { preserveState: true, preserveScroll: true })
 }
 
-function groupEntries(entries) {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1)
-  const weekAgo = new Date(today); weekAgo.setDate(weekAgo.getDate() - 7)
-  const monthAgo = new Date(today); monthAgo.setMonth(monthAgo.getMonth() - 1)
-
-  const groups = { 'Today': [], 'Yesterday': [], 'This Week': [], 'This Month': [], 'Older': [] }
-
-  entries.forEach(entry => {
-	const d = new Date(entry.created_at)
-	if (d >= today) groups['Today'].push(entry)
-	else if (d >= yesterday) groups['Yesterday'].push(entry)
-	else if (d >= weekAgo) groups['This Week'].push(entry)
-	else if (d >= monthAgo) groups['This Month'].push(entry)
-	else groups['Older'].push(entry)
-  })
-
-  return Object.entries(groups).filter(([, items]) => items.length > 0)
-}
-
-const groupedEntries = computed(() => groupEntries(props.entries))
+const groupedEntries = computed(() => groupEntriesByDate(props.entries))
 
 function truncate(text, len = 60) {
   if (!text) return ''
@@ -113,11 +93,11 @@ function timeAgo(date) {
 		:class="[
 		  'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-all',
 		  activeType === item.type
-			? 'bg-violet-400/10 text-violet-500'
+			? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
 			: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 		]"
 	  >
-		<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeType === item.type ? 'text-violet-500' : 'text-foreground']" weight="thin" />
+		<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeType === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 		<span class="truncate">{{ item.label }}</span>
 		<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
 	  </button>
@@ -140,7 +120,7 @@ function timeAgo(date) {
 			:class="[
 			  'flex w-full flex-col gap-0.5 rounded-lg px-3 py-2 text-left transition-all',
 			  selectedId === entry.id
-				? 'bg-violet-400/10 ring-1 ring-violet-500/20'
+				? 'bg-amber-500/20 ring-1 ring-amber-500/30 dark:bg-violet-500/15 dark:ring-violet-400/25'
 				: 'hover:bg-secondary/50'
 			]"
 		  >

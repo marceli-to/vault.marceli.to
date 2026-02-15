@@ -17,7 +17,7 @@ const emit = defineEmits(['close'])
 const statuses = [
 	{ value: 'open', label: 'Open', icon: PhCircle, color: 'text-muted-foreground bg-muted border-border' },
 	{ value: 'in_progress', label: 'In Progress', icon: PhCircleHalf, color: 'text-amber-300 bg-amber-400/10 border-amber-500/20' },
-	{ value: 'done', label: 'Done', icon: PhCheckCircle, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
+	{ value: 'done', label: 'Done', icon: PhCheckCircle, color: 'text-amber-500 bg-amber-400/10 border-amber-500/20' },
 ]
 
 const priorities = [
@@ -137,7 +137,7 @@ function submit() {
 
 				<DialogFooter>
 					<Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-					<Button type="submit" :disabled="form.processing || !form.title" class="bg-violet-600 hover:bg-violet-700">
+					<Button type="submit" :disabled="form.processing || !form.title" class="bg-amber-600 hover:bg-amber-700">
 						{{ task ? 'Update' : 'Create' }}
 					</Button>
 				</DialogFooter>

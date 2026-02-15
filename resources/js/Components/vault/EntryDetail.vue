@@ -33,7 +33,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		  <span class="rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground capitalize">
 			{{ typeLabels[entry.type] }}
 		  </span>
-		  <span v-if="entry.is_pinned" class="rounded-full bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-400">
+		  <span v-if="entry.is_pinned" class="rounded-full bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-600 dark:text-yellow-400">
 			Pinned
 		  </span>
 		</div>
@@ -49,7 +49,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('edit', entry)">
 		  <PhPencilSimple class="h-4 w-4 text-foreground" weight="thin" />
 		</Button>
-		<Button variant="ghost" size="icon" class="h-8 w-8 text-red-400 hover:text-red-300" @click="emit('delete', entry)">
+		<Button variant="ghost" size="icon" class="h-8 w-8 text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300" @click="emit('delete', entry)">
 		  <PhTrash class="h-4 w-4" weight="thin" />
 		</Button>
 	  </div>
@@ -65,7 +65,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		v-if="entry.url"
 		:href="entry.url"
 		target="_blank"
-		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-violet-500 transition-colors hover:bg-secondary"
+		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-amber-500 transition-colors hover:bg-secondary"
 	  >
 		<PhArrowSquareOut class="h-4 w-4 text-foreground" weight="thin" />
 		{{ entry.url }}

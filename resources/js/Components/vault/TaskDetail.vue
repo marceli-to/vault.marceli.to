@@ -9,7 +9,7 @@ const statusLabels = { open: 'Open', in_progress: 'In Progress', done: 'Done' }
 const statusColors = {
 	open: 'text-zinc-400 bg-zinc-400/10',
 	in_progress: 'text-amber-400 bg-amber-400/10',
-	done: 'text-violet-500 bg-violet-400/10',
+	done: 'text-amber-500 bg-amber-400/10',
 }
 const priorityLabels = { low: 'Low', normal: 'Normal', high: 'High' }
 const priorityColors = {
@@ -67,7 +67,7 @@ function cycleStatus() {
 				<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('edit', task)">
 					<PhPencilSimple class="h-4 w-4 text-foreground" weight="thin" />
 				</Button>
-				<Button variant="ghost" size="icon" class="h-8 w-8 text-red-400 hover:text-red-300" @click="emit('delete', task)">
+				<Button variant="ghost" size="icon" class="h-8 w-8 text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300" @click="emit('delete', task)">
 					<PhTrash class="h-4 w-4" weight="thin" />
 				</Button>
 			</div>
