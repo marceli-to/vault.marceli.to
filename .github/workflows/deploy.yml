@@ -22,6 +22,7 @@ jobs:
             cd /home/pumutuxu/www/vault
             git pull origin main
             composer install --no-dev --optimize-autoloader
+            php artisan ziggy:generate
             php artisan migrate --force
             php artisan cache:clear
             php artisan config:cache
