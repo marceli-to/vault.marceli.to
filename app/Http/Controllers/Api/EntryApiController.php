@@ -8,18 +8,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Entry\Filter as FilterRequest;
 use App\Http\Requests\Entry\Store as StoreRequest;
 use App\Models\Entry;
-use App\Models\User;
 
 class EntryApiController extends Controller
 {
-	private function getUser(): User
-	{
-		return User::first();
-	}
 
 	public function index(FilterRequest $request)
 	{
-		$query = Entry::where('user_id', $this->getUser()->id)
+		$query = Entry::where('user_id', $request->user()->id)
 			->orderByDesc('created_at');
 
 		if ($search = $request->validated('search')) {
@@ -43,7 +38,7 @@ class EntryApiController extends Controller
 
 	public function store(StoreRequest $request)
 	{
-		$entry = (new CreateAction)->execute($this->getUser(), $request->validated());
+		$entry = (new CreateAction)->execute($request->user(), $request->validated());
 
 		return response()->json($entry, 201);
 	}

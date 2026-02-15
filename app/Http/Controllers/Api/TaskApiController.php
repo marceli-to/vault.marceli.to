@@ -10,18 +10,13 @@ use App\Http\Requests\Task\Filter as FilterRequest;
 use App\Http\Requests\Task\Store as StoreRequest;
 use App\Http\Requests\Task\Update as UpdateRequest;
 use App\Models\Task;
-use App\Models\User;
 
 class TaskApiController extends Controller
 {
-	private function getUser(): User
-	{
-		return User::first();
-	}
 
 	public function index(FilterRequest $request)
 	{
-		$query = Task::where('user_id', $this->getUser()->id);
+		$query = Task::where('user_id', $request->user()->id);
 
 		if ($status = $request->validated('status')) {
 			$query->where('status', $status);
@@ -46,7 +41,7 @@ class TaskApiController extends Controller
 
 	public function store(StoreRequest $request)
 	{
-		$task = (new CreateAction)->execute($this->getUser(), $request->validated());
+		$task = (new CreateAction)->execute($request->user(), $request->validated());
 
 		return response()->json($task, 201);
 	}
