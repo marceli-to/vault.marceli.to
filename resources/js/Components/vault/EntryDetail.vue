@@ -1,4 +1,5 @@
 <script setup>
+import { router } from '@inertiajs/vue3'
 import { PhPencilSimple, PhTrash, PhPushPin, PhPushPinSlash, PhArrowSquareOut, PhClock, PhTextT } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 import { Separator } from '@/Components/ui/separator'
@@ -6,6 +7,10 @@ import TypeIcon from './TypeIcon.vue'
 import TagBadge from './TagBadge.vue'
 
 const props = defineProps({ entry: Object })
+
+function filterByTag(tag) {
+  router.get(route('dashboard'), { tag }, { preserveState: true, preserveScroll: true })
+}
 const emit = defineEmits(['edit', 'delete', 'togglePin'])
 
 function formatDate(date) {
@@ -71,7 +76,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
     <div class="border-t border-border p-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-wrap gap-1.5">
-          <TagBadge v-for="tag in entry.tags" :key="tag" :tag="tag" />
+          <TagBadge v-for="tag in entry.tags" :key="tag" :tag="tag" clickable @click="filterByTag(tag)" />
         </div>
         <div class="flex items-center gap-3 text-xs text-muted-foreground">
           <span class="flex items-center gap-1">

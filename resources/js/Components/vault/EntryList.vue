@@ -36,6 +36,7 @@ function groupEntries(entries) {
 const groupedEntries = computed(() => groupEntries(props.entries))
 
 const title = computed(() => {
+  if (props.filters?.tag) return `Tagged: ${props.filters.tag}`
   if (props.filters?.pinned) return 'Pinned'
   if (props.filters?.type === 'idea') return 'Ideas'
   if (props.filters?.type === 'link') return 'Links'

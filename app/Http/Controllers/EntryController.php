@@ -54,10 +54,21 @@ class EntryController extends Controller
                 return $entry;
             });
 
+        $tags = Entry::where('user_id', $request->user()->id)
+            ->whereNotNull('tags')
+            ->pluck('tags')
+            ->flatten()
+            ->countBy()
+            ->map(fn ($count, $name) => ['name' => $name, 'count' => $count])
+            ->sortByDesc('count')
+            ->values()
+            ->all();
+
         return Inertia::render('Dashboard', [
             'entries' => $entries,
             'allEntries' => $allEntries,
             'counts' => $counts,
+            'tags' => $tags,
             'filters' => $request->only(['search', 'type', 'tag', 'pinned']),
         ]);
     }
