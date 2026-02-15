@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Entry extends Model
 {
 	protected $fillable = [
-		'user_id', 'title', 'content', 'url', 'type', 'tags', 'is_pinned',
+		'user_id', 
+    'title', 
+    'content', 
+    'url', 
+    'type', 
+    'tags', 
+    'is_pinned',
 	];
 
 	protected $casts = [

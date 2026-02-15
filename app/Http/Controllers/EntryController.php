@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateEntry;
+use App\Actions\DeleteEntry;
+use App\Actions\UpdateEntry;
+use App\Http\Requests\StoreEntryRequest;
+use App\Http\Requests\UpdateEntryRequest;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -73,56 +78,27 @@ class EntryController extends Controller
 		]);
 	}
 
-	public function store(Request $request)
+	public function store(StoreEntryRequest $request, CreateEntry $action)
 	{
-		$validated = $request->validate([
-			'title' => 'nullable|string|max:255',
-			'content' => 'required|string',
-			'url' => 'nullable|url|max:2048',
-			'type' => 'required|in:idea,link,note',
-			'tags' => 'nullable|array',
-			'tags.*' => 'string|max:50',
-			'is_pinned' => 'boolean',
-		]);
-
-		$validated['user_id'] = $request->user()->id;
-		$validated['tags'] = $validated['tags'] ?? [];
-
-		Entry::create($validated);
+		$action->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function update(Request $request, Entry $entry)
+	public function update(UpdateEntryRequest $request, Entry $entry, UpdateEntry $action)
+	{
+		$action->execute($entry, $request->validated());
+
+		return redirect()->back();
+	}
+
+	public function destroy(Request $request, Entry $entry, DeleteEntry $action)
 	{
 		if ($entry->user_id !== $request->user()->id) {
 			abort(403);
 		}
 
-		$validated = $request->validate([
-			'title' => 'nullable|string|max:255',
-			'content' => 'required|string',
-			'url' => 'nullable|url|max:2048',
-			'type' => 'required|in:idea,link,note',
-			'tags' => 'nullable|array',
-			'tags.*' => 'string|max:50',
-			'is_pinned' => 'boolean',
-		]);
-
-		$validated['tags'] = $validated['tags'] ?? [];
-
-		$entry->update($validated);
-
-		return redirect()->back();
-	}
-
-	public function destroy(Request $request, Entry $entry)
-	{
-		if ($entry->user_id !== $request->user()->id) {
-			abort(403);
-		}
-
-		$entry->delete();
+		$action->execute($entry);
 
 		return redirect()->back();
 	}

@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateTask;
+use App\Actions\DeleteTask;
+use App\Actions\UpdateTask;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -40,49 +45,27 @@ class TaskController extends Controller
 		]);
 	}
 
-	public function store(Request $request)
+	public function store(StoreTaskRequest $request, CreateTask $action)
 	{
-		$validated = $request->validate([
-			'title' => 'required|string|max:255',
-			'description' => 'nullable|string',
-			'status' => 'required|in:open,in_progress,done',
-			'priority' => 'required|in:low,normal,high',
-			'due_date' => 'nullable|date',
-		]);
-
-		$validated['user_id'] = $request->user()->id;
-
-		Task::create($validated);
+		$action->execute($request->user(), $request->validated());
 
 		return redirect()->back();
 	}
 
-	public function update(Request $request, Task $task)
+	public function update(UpdateTaskRequest $request, Task $task, UpdateTask $action)
+	{
+		$action->execute($task, $request->validated());
+
+		return redirect()->back();
+	}
+
+	public function destroy(Request $request, Task $task, DeleteTask $action)
 	{
 		if ($task->user_id !== $request->user()->id) {
 			abort(403);
 		}
 
-		$validated = $request->validate([
-			'title' => 'required|string|max:255',
-			'description' => 'nullable|string',
-			'status' => 'required|in:open,in_progress,done',
-			'priority' => 'required|in:low,normal,high',
-			'due_date' => 'nullable|date',
-		]);
-
-		$task->update($validated);
-
-		return redirect()->back();
-	}
-
-	public function destroy(Request $request, Task $task)
-	{
-		if ($task->user_id !== $request->user()->id) {
-			abort(403);
-		}
-
-		$task->delete();
+		$action->execute($task);
 
 		return redirect()->back();
 	}

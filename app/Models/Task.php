@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Task extends Model
 {
 	protected $fillable = [
-		'user_id', 'title', 'description', 'status', 'priority', 'due_date', 'tags', 'sort_order',
+		'user_id', 
+    'title', 
+    'description', 
+    'status', 
+    'priority', 
+    'due_date', 
+    'tags', 
+    'sort_order',
 	];
 
 	protected $casts = [
