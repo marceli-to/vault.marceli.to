@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Task\Create;
 use App\Actions\Task\Delete;
-use App\Actions\Task\List as ListAction;
+use App\Actions\Task\Index;
 use App\Actions\Task\Update;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -17,7 +17,7 @@ class TaskController extends Controller
 	public function index(Request $request)
 	{
 		$filters = $request->only(['status', 'priority']);
-		$data = (new ListAction)->execute($request->user(), $filters);
+		$data = (new Index)->execute($request->user(), $filters);
 
 		return Inertia::render('Tasks', [
 			...$data,

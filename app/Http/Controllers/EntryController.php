@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Entry\Create;
 use App\Actions\Entry\Delete;
-use App\Actions\Entry\List as ListAction;
+use App\Actions\Entry\Index;
 use App\Actions\Entry\Update;
 use App\Http\Requests\StoreEntryRequest;
 use App\Http\Requests\UpdateEntryRequest;
@@ -17,7 +17,7 @@ class EntryController extends Controller
 	public function index(Request $request)
 	{
 		$filters = $request->only(['search', 'type', 'tag', 'pinned']);
-		$data = (new ListAction)->execute($request->user(), $filters);
+		$data = (new Index)->execute($request->user(), $filters);
 
 		return Inertia::render('Dashboard', [
 			...$data,
