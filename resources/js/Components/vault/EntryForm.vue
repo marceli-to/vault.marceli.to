@@ -133,13 +133,13 @@ function submit() {
 		</div>
 
 		<label class="flex items-center gap-2 text-sm cursor-pointer">
-		  <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-zinc-600 data-[state=checked]:bg-violet-400 data-[state=checked]:border-violet-600" />
+		  <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-border data-[state=checked]:bg-violet-400 data-[state=checked]:border-violet-600" />
 		  Pin this entry
 		</label>
 
 		<DialogFooter>
 		  <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-violet-400 hover:bg-violet-500">
+		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-violet-600 hover:bg-violet-700">
 			{{ entry ? 'Update' : 'Create' }}
 		  </Button>
 		</DialogFooter>

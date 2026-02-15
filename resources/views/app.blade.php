@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add(localStorage.getItem('theme') || 'dark')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title inertia>{{ config('app.name', 'Laravel') }}</title>
 <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />

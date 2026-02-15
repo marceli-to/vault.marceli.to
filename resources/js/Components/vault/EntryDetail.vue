@@ -43,11 +43,11 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 	  </div>
 	  <div class="flex items-center gap-1">
 		<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('togglePin', entry)">
-		  <PhPushPinSlash v-if="entry.is_pinned" class="h-4 w-4 text-white" weight="thin" />
-		  <PhPushPin v-else class="h-4 w-4 text-white" weight="thin" />
+		  <PhPushPinSlash v-if="entry.is_pinned" class="h-4 w-4 text-foreground" weight="thin" />
+		  <PhPushPin v-else class="h-4 w-4 text-foreground" weight="thin" />
 		</Button>
 		<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('edit', entry)">
-		  <PhPencilSimple class="h-4 w-4 text-white" weight="thin" />
+		  <PhPencilSimple class="h-4 w-4 text-foreground" weight="thin" />
 		</Button>
 		<Button variant="ghost" size="icon" class="h-8 w-8 text-red-400 hover:text-red-300" @click="emit('delete', entry)">
 		  <PhTrash class="h-4 w-4" weight="thin" />
@@ -67,7 +67,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		target="_blank"
 		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-violet-500 transition-colors hover:bg-secondary"
 	  >
-		<PhArrowSquareOut class="h-4 w-4 text-white" weight="thin" />
+		<PhArrowSquareOut class="h-4 w-4 text-foreground" weight="thin" />
 		{{ entry.url }}
 	  </a>
 	</div>
@@ -80,11 +80,11 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		</div>
 		<div class="flex items-center gap-3 text-xs text-muted-foreground">
 		  <span class="flex items-center gap-1">
-			<PhTextT class="h-3 w-3 text-white" weight="thin" />
+			<PhTextT class="h-3 w-3 text-foreground" weight="thin" />
 			{{ entry.word_count }} words
 		  </span>
 		  <span class="flex items-center gap-1">
-			<PhClock class="h-3 w-3 text-white" weight="thin" />
+			<PhClock class="h-3 w-3 text-foreground" weight="thin" />
 			{{ formatDate(entry.created_at) }}
 		  </span>
 		</div>

@@ -33,7 +33,7 @@ const submit = () => {
 
 		<form @submit.prevent="submit" class="space-y-5">
 			<div class="space-y-2">
-				<label for="email" class="block text-sm font-medium text-zinc-300">Email</label>
+				<label for="email" class="block text-sm font-medium text-foreground">Email</label>
 				<Input
 					id="email"
 					type="email"
@@ -42,13 +42,13 @@ const submit = () => {
 					autofocus
 					autocomplete="username"
 					placeholder="you@example.com"
-					class="bg-zinc-950 border-zinc-700 text-zinc-100 placeholder:text-zinc-500"
+					class="bg-background border-border text-foreground placeholder:text-muted-foreground"
 				/>
 				<p v-if="form.errors.email" class="text-sm text-red-400">{{ form.errors.email }}</p>
 			</div>
 
 			<div class="space-y-2">
-				<label for="password" class="block text-sm font-medium text-zinc-300">Password</label>
+				<label for="password" class="block text-sm font-medium text-foreground">Password</label>
 				<Input
 					id="password"
 					type="password"
@@ -56,7 +56,7 @@ const submit = () => {
 					required
 					autocomplete="current-password"
 					placeholder="••••••••"
-					class="bg-zinc-950 border-zinc-700 text-zinc-100 placeholder:text-zinc-500"
+					class="bg-background border-border text-foreground placeholder:text-muted-foreground"
 				/>
 				<p v-if="form.errors.password" class="text-sm text-red-400">{{ form.errors.password }}</p>
 			</div>
@@ -66,15 +66,15 @@ const submit = () => {
 					<input
 						type="checkbox"
 						v-model="form.remember"
-						class="h-4 w-4 rounded border-zinc-600 bg-zinc-950 text-violet-600 focus:ring-violet-500/20 focus:ring-offset-0"
+						class="h-4 w-4 rounded border-border bg-background text-violet-600 accent-violet-600 focus:ring-violet-500/20 focus:ring-offset-0"
 					/>
-					<span class="text-sm text-zinc-400">Remember me</span>
+					<span class="text-sm text-muted-foreground">Remember me</span>
 				</label>
 			</div>
 
 			<Button
 				type="submit"
-				class="w-full bg-violet-400 hover:bg-violet-500 text-white font-medium"
+				class="w-full bg-violet-600 hover:bg-violet-700 text-white font-medium"
 				:class="{ 'opacity-25': form.processing }"
 				:disabled="form.processing"
 			>

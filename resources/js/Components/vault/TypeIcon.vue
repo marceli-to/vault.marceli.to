@@ -14,5 +14,5 @@ const icons = {
 </script>
 
 <template>
-  <component :is="icons[type]" :class="[props.class, 'text-white']" weight="thin" />
+  <component :is="icons[type]" :class="[props.class, 'text-foreground']" weight="thin" />
 </template>

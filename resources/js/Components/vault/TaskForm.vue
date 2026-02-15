@@ -15,13 +15,13 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const statuses = [
-	{ value: 'open', label: 'Open', icon: PhCircle, color: 'text-zinc-300 bg-zinc-400/10 border-zinc-500/20' },
+	{ value: 'open', label: 'Open', icon: PhCircle, color: 'text-muted-foreground bg-muted border-border' },
 	{ value: 'in_progress', label: 'In Progress', icon: PhCircleHalf, color: 'text-amber-300 bg-amber-400/10 border-amber-500/20' },
 	{ value: 'done', label: 'Done', icon: PhCheckCircle, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
 ]
 
 const priorities = [
-	{ value: 'low', label: 'Low', icon: PhArrowDown, color: 'text-zinc-300 bg-zinc-400/10 border-zinc-500/20' },
+	{ value: 'low', label: 'Low', icon: PhArrowDown, color: 'text-muted-foreground bg-muted border-border' },
 	{ value: 'normal', label: 'Normal', icon: PhEquals, color: 'text-blue-300 bg-blue-400/10 border-blue-500/20' },
 	{ value: 'high', label: 'High', icon: PhArrowUp, color: 'text-red-300 bg-red-400/10 border-red-500/20' },
 ]
@@ -137,7 +137,7 @@ function submit() {
 
 				<DialogFooter>
 					<Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-					<Button type="submit" :disabled="form.processing || !form.title" class="bg-violet-400 hover:bg-violet-500">
+					<Button type="submit" :disabled="form.processing || !form.title" class="bg-violet-600 hover:bg-violet-700">
 						{{ task ? 'Update' : 'Create' }}
 					</Button>
 				</DialogFooter>

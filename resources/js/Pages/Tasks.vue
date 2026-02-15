@@ -95,7 +95,7 @@ const currentSelected = computed(() => {
 					{{ counts.all }} tasks · {{ counts.open }} open
 				</div>
 				<Button variant="ghost" size="icon" class="h-8 w-8" @click="router.post(route('logout'))">
-					<PhSignOut class="h-4 w-4 text-white" weight="thin" />
+					<PhSignOut class="h-4 w-4 text-foreground" weight="thin" />
 				</Button>
 			</div>
 

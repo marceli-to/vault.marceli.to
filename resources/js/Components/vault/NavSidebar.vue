@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { PhLightbulb, PhLink, PhNote, PhPushPin, PhPlus, PhMagnifyingGlass, PhStack, PhTag, PhCheckSquare, PhCircle, PhCircleHalf, PhCheckCircle } from '@phosphor-icons/vue'
+import { PhLightbulb, PhLink, PhNote, PhPushPin, PhPlus, PhMagnifyingGlass, PhStack, PhTag, PhCheckSquare, PhCircle, PhCircleHalf, PhCheckCircle, PhSun, PhMoon } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 import { Separator } from '@/Components/ui/separator'
 import { ScrollArea } from '@/Components/ui/scroll-area'
@@ -20,6 +20,13 @@ const props = defineProps({
 })
 
 const showTags = ref(false)
+const isDark = ref(document.documentElement.classList.contains('dark'))
+
+function toggleTheme() {
+	isDark.value = !isDark.value
+	document.documentElement.classList.toggle('dark', isDark.value)
+	localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
 
 const tagColors = [
   { dot: 'bg-violet-400', text: 'text-violet-500', activeBg: 'bg-violet-400/10' },
@@ -111,7 +118,7 @@ function switchPage(target) {
 	<!-- Logo -->
 	<div class="mb-4">
 	  <svg width="20" height="15" viewBox="0 0 379 265" fill="none" xmlns="http://www.w3.org/2000/svg">
-		<path d="M179.138 265L24.2363 19.7487H0V0H201.618V19.7487H184.407C179.958 19.7487 176.211 21.5858 173.167 25.26C170.357 28.9341 168.952 33.9861 168.952 40.4159C168.952 45.3148 170.123 51.1323 172.464 57.8683C175.04 64.2981 179.138 71.1872 184.758 78.5355L239.553 151.101L278.191 97.3657C282.64 91.2421 285.801 85.2715 287.675 79.4541C289.782 73.3304 290.836 67.3599 290.836 61.5425C290.836 49.9076 286.504 40.1098 277.84 32.149C269.41 23.8821 257.467 19.7487 242.012 19.7487H219.181V0H379V19.7487H359.681L190.378 265H179.138ZM185.812 242.036L196.349 227.34L65.684 19.7487H45.6626L185.812 242.036Z" fill="white"/>
+		<path d="M179.138 265L24.2363 19.7487H0V0H201.618V19.7487H184.407C179.958 19.7487 176.211 21.5858 173.167 25.26C170.357 28.9341 168.952 33.9861 168.952 40.4159C168.952 45.3148 170.123 51.1323 172.464 57.8683C175.04 64.2981 179.138 71.1872 184.758 78.5355L239.553 151.101L278.191 97.3657C282.64 91.2421 285.801 85.2715 287.675 79.4541C289.782 73.3304 290.836 67.3599 290.836 61.5425C290.836 49.9076 286.504 40.1098 277.84 32.149C269.41 23.8821 257.467 19.7487 242.012 19.7487H219.181V0H379V19.7487H359.681L190.378 265H179.138ZM185.812 242.036L196.349 227.34L65.684 19.7487H45.6626L185.812 242.036Z" fill="currentColor"/>
 	  </svg>
 	</div>
 
@@ -126,10 +133,10 @@ function switchPage(target) {
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				page === 'entries'
 				  ? 'bg-violet-400/10 text-violet-500'
-				  : 'text-zinc-400 hover:bg-secondary hover:text-foreground'
+				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhStack :class="['h-5 w-5', page === 'entries' ? 'text-violet-500' : 'text-white']" weight="thin" />
+			  <PhStack :class="['h-5 w-5', page === 'entries' ? 'text-violet-500' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Entries</TooltipContent>
@@ -144,10 +151,10 @@ function switchPage(target) {
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				page === 'tasks'
 				  ? 'bg-violet-400/10 text-violet-500'
-				  : 'text-zinc-400 hover:bg-secondary hover:text-foreground'
+				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhCheckSquare :class="['h-5 w-5', page === 'tasks' ? 'text-violet-500' : 'text-white']" weight="thin" />
+			  <PhCheckSquare :class="['h-5 w-5', page === 'tasks' ? 'text-violet-500' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Tasks</TooltipContent>
@@ -157,7 +164,7 @@ function switchPage(target) {
 
 	<!-- Search -->
 	<Button v-if="page === 'entries'" variant="ghost" size="icon" class="mb-1 h-10 w-10" @click="emit('search')">
-	  <PhMagnifyingGlass class="h-5 w-5 text-white" weight="thin" />
+	  <PhMagnifyingGlass class="h-5 w-5 text-foreground" weight="thin" />
 	</Button>
 
 	<!-- Navigation -->
@@ -171,10 +178,10 @@ function switchPage(target) {
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				activeType === item.type
 				  ? 'bg-violet-400/10 text-violet-500'
-				  : 'text-zinc-400 hover:bg-secondary hover:text-foreground'
+				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <component :is="item.icon" :class="['h-5 w-5', activeType === item.type ? 'text-violet-500' : 'text-white']" weight="thin" />
+			  <component :is="item.icon" :class="['h-5 w-5', activeType === item.type ? 'text-violet-500' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">{{ item.label }} ({{ item.count }})</TooltipContent>
@@ -189,10 +196,10 @@ function switchPage(target) {
 				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
 				showTags || filters?.tag
 				  ? 'bg-violet-400/10 text-violet-500'
-				  : 'text-zinc-400 hover:bg-secondary hover:text-foreground'
+				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 			  ]"
 			>
-			  <PhTag :class="['h-5 w-5', showTags || filters?.tag ? 'text-violet-500' : 'text-white']" weight="thin" />
+			  <PhTag :class="['h-5 w-5', showTags || filters?.tag ? 'text-violet-500' : 'text-foreground']" weight="thin" />
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Tags</TooltipContent>
@@ -203,12 +210,28 @@ function switchPage(target) {
 	<!-- Spacer -->
 	<div class="flex-1" />
 
+	<!-- Theme toggle -->
+	<TooltipProvider :delay-duration="0">
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<button
+					@click="toggleTheme"
+					class="flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-all"
+				>
+					<PhMoon v-if="isDark" class="h-5 w-5 text-foreground" weight="thin" />
+					<PhSun v-else class="h-5 w-5 text-foreground" weight="thin" />
+				</button>
+			</TooltipTrigger>
+			<TooltipContent side="right">{{ isDark ? 'Light mode' : 'Dark mode' }}</TooltipContent>
+		</Tooltip>
+	</TooltipProvider>
+
 	<!-- Add button -->
 	<TooltipProvider :delay-duration="0">
 	  <Tooltip>
 		<TooltipTrigger asChild>
 		  <Button variant="ghost" size="icon" class="h-10 w-10" @click="emit('create')">
-			<PhPlus class="h-5 w-5 text-white" weight="thin" />
+			<PhPlus class="h-5 w-5 text-foreground" weight="thin" />
 		  </Button>
 		</TooltipTrigger>
 		<TooltipContent side="right">New Entry</TooltipContent>
@@ -235,7 +258,7 @@ function switchPage(target) {
 			  'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-all',
 			  filters?.tag === tag.name
 				? getTagColor(tag.name).activeBg + ' ' + getTagColor(tag.name).text
-				: 'text-zinc-400 hover:bg-secondary/50 hover:text-foreground'
+				: 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
 			]"
 		  >
 			<span :class="['h-2 w-2 rounded-full shrink-0', getTagColor(tag.name).dot]" />

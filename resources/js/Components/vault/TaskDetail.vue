@@ -65,7 +65,7 @@ function cycleStatus() {
 			</div>
 			<div class="flex items-center gap-1">
 				<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('edit', task)">
-					<PhPencilSimple class="h-4 w-4 text-white" weight="thin" />
+					<PhPencilSimple class="h-4 w-4 text-foreground" weight="thin" />
 				</Button>
 				<Button variant="ghost" size="icon" class="h-8 w-8 text-red-400 hover:text-red-300" @click="emit('delete', task)">
 					<PhTrash class="h-4 w-4" weight="thin" />
@@ -83,7 +83,7 @@ function cycleStatus() {
 			</div>
 
 			<div v-if="task.due_date" class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-muted-foreground">
-				<PhCalendar class="h-4 w-4 text-white" weight="thin" />
+				<PhCalendar class="h-4 w-4 text-foreground" weight="thin" />
 				Due: {{ formatDueDate(task.due_date) }}
 			</div>
 		</div>
@@ -93,7 +93,7 @@ function cycleStatus() {
 			<div class="flex items-center justify-end">
 				<div class="flex items-center gap-3 text-xs text-muted-foreground">
 					<span class="flex items-center gap-1">
-						<PhClock class="h-3 w-3 text-white" weight="thin" />
+						<PhClock class="h-3 w-3 text-foreground" weight="thin" />
 						{{ formatDate(task.created_at) }}
 					</span>
 				</div>

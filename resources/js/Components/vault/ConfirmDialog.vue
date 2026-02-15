@@ -20,14 +20,14 @@ const emit = defineEmits(['confirm', 'cancel'])
 			<div class="fixed inset-0 bg-black/80" @click="emit('cancel')" />
 
 			<!-- Dialog -->
-			<div class="relative z-50 w-full max-w-md rounded-lg border border-zinc-800 bg-zinc-900 p-6 shadow-lg animate-in fade-in zoom-in-95 duration-200">
-				<h2 class="text-lg font-semibold text-zinc-100">{{ title }}</h2>
-				<p class="mt-1 text-sm text-zinc-400">{{ description }}</p>
+			<div class="relative z-50 w-full max-w-md rounded-lg border border-border bg-card p-6 shadow-lg animate-in fade-in zoom-in-95 duration-200">
+				<h2 class="text-lg font-semibold text-foreground">{{ title }}</h2>
+				<p class="mt-1 text-sm text-muted-foreground">{{ description }}</p>
 
 				<div class="mt-4 flex justify-end gap-2">
 					<Button
 						variant="outline"
-						class="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+						class="border-border bg-transparent text-foreground hover:bg-secondary hover:text-foreground"
 						@click="emit('cancel')"
 					>
 						{{ cancelText }}

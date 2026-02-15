@@ -84,11 +84,11 @@ function timeAgo(date) {
 	<div class="flex items-center justify-between p-4 pb-2">
 	  <div class="flex items-center gap-2">
 		<svg width="24" height="18" viewBox="0 0 379 265" fill="none" xmlns="http://www.w3.org/2000/svg">
-		  <path d="M179.138 265L24.2363 19.7487H0V0H201.618V19.7487H184.407C179.958 19.7487 176.211 21.5858 173.167 25.26C170.357 28.9341 168.952 33.9861 168.952 40.4159C168.952 45.3148 170.123 51.1323 172.464 57.8683C175.04 64.2981 179.138 71.1872 184.758 78.5355L239.553 151.101L278.191 97.3657C282.64 91.2421 285.801 85.2715 287.675 79.4541C289.782 73.3304 290.836 67.3599 290.836 61.5425C290.836 49.9076 286.504 40.1098 277.84 32.149C269.41 23.8821 257.467 19.7487 242.012 19.7487H219.181V0H379V19.7487H359.681L190.378 265H179.138ZM185.812 242.036L196.349 227.34L65.684 19.7487H45.6626L185.812 242.036Z" fill="white"/>
+		  <path d="M179.138 265L24.2363 19.7487H0V0H201.618V19.7487H184.407C179.958 19.7487 176.211 21.5858 173.167 25.26C170.357 28.9341 168.952 33.9861 168.952 40.4159C168.952 45.3148 170.123 51.1323 172.464 57.8683C175.04 64.2981 179.138 71.1872 184.758 78.5355L239.553 151.101L278.191 97.3657C282.64 91.2421 285.801 85.2715 287.675 79.4541C289.782 73.3304 290.836 67.3599 290.836 61.5425C290.836 49.9076 286.504 40.1098 277.84 32.149C269.41 23.8821 257.467 19.7487 242.012 19.7487H219.181V0H379V19.7487H359.681L190.378 265H179.138ZM185.812 242.036L196.349 227.34L65.684 19.7487H45.6626L185.812 242.036Z" fill="currentColor"/>
 		</svg>
 	  </div>
 	  <Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('create')">
-		<PhPlus class="h-4 w-4 text-white" weight="thin" />
+		<PhPlus class="h-4 w-4 text-foreground" weight="thin" />
 	  </Button>
 	</div>
 
@@ -98,7 +98,7 @@ function timeAgo(date) {
 		@click="emit('search')"
 		class="flex w-full items-center gap-2 rounded-lg border border-border bg-secondary/50 px-3 py-2 text-xs text-muted-foreground transition-colors hover:bg-secondary"
 	  >
-		<PhMagnifyingGlass class="h-3.5 w-3.5 text-white" weight="thin" />
+		<PhMagnifyingGlass class="h-3.5 w-3.5 text-foreground" weight="thin" />
 		<span>Search…</span>
 		<kbd class="ml-auto rounded border border-border bg-background px-1.5 py-0.5 text-[10px] font-mono">⌘K</kbd>
 	  </button>
@@ -117,7 +117,7 @@ function timeAgo(date) {
 			: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 		]"
 	  >
-		<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeType === item.type ? 'text-violet-500' : 'text-white']" weight="thin" />
+		<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeType === item.type ? 'text-violet-500' : 'text-foreground']" weight="thin" />
 		<span class="truncate">{{ item.label }}</span>
 		<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
 	  </button>
@@ -147,7 +147,7 @@ function timeAgo(date) {
 			<div class="flex items-center gap-2">
 			  <TypeIcon :type="entry.type" class="h-3 w-3 shrink-0" />
 			  <span class="truncate text-sm font-medium">{{ entry.title || truncate(entry.content, 40) }}</span>
-			  <PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-white" weight="thin" />
+			  <PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-foreground" weight="thin" />
 			</div>
 			<div class="flex items-center gap-2 pl-5">
 			  <span class="truncate text-xs text-muted-foreground">{{ truncate(entry.content, 50) }}</span>
