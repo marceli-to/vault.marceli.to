@@ -51,10 +51,10 @@ function deleteEntry(entry) {
 
 function confirmDelete() {
   if (pendingDelete.value) {
-    router.delete(route('entries.destroy', pendingDelete.value.id), {
-      preserveScroll: true,
-      onSuccess: () => { selectedEntry.value = null },
-    })
+	router.delete(route('entries.destroy', pendingDelete.value.id), {
+	  preserveScroll: true,
+	  onSuccess: () => { selectedEntry.value = null },
+	})
   }
   showConfirm.value = false
   pendingDelete.value = null
@@ -67,8 +67,8 @@ function cancelDelete() {
 
 function togglePin(entry) {
   router.put(route('entries.update', entry.id), {
-    ...entry,
-    is_pinned: !entry.is_pinned,
+	...entry,
+	is_pinned: !entry.is_pinned,
   }, { preserveScroll: true })
 }
 
@@ -82,58 +82,58 @@ const currentSelected = computed(() => {
   <Head title="Dashboard" />
 
   <div class="flex h-screen bg-background">
-    <!-- Column 1: Nav sidebar -->
-    <NavSidebar
-      :counts="counts"
-      :filters="filters"
-      :tags="tags"
-      page="entries"
-      @create="openCreate"
-      @search="showSearch = true"
-    />
+	<!-- Column 1: Nav sidebar -->
+	<NavSidebar
+	  :counts="counts"
+	  :filters="filters"
+	  :tags="tags"
+	  page="entries"
+	  @create="openCreate"
+	  @search="showSearch = true"
+	/>
 
-    <!-- Column 2: Entry list -->
-    <EntryList
-      :entries="entries"
-      :filters="filters"
-      :selectedId="currentSelected?.id"
-      @select="selectEntry"
-    />
+	<!-- Column 2: Entry list -->
+	<EntryList
+	  :entries="entries"
+	  :filters="filters"
+	  :selectedId="currentSelected?.id"
+	  @select="selectEntry"
+	/>
 
-    <!-- Column 3: Detail panel -->
-    <div class="flex flex-1 flex-col">
-      <!-- Top bar -->
-      <div class="flex items-center justify-between border-b border-border pl-6 pr-3 h-[50px]">
-        <div class="text-xs text-muted-foreground font-mono">
-          {{ counts.all }} entries in vault
-        </div>
-        <Button variant="ghost" size="icon" class="h-8 w-8" @click="router.post(route('logout'))">
-          <PhSignOut class="h-4 w-4 text-white" weight="thin" />
-        </Button>
-      </div>
+	<!-- Column 3: Detail panel -->
+	<div class="flex flex-1 flex-col">
+	  <!-- Top bar -->
+	  <div class="flex items-center justify-between border-b border-border pl-6 pr-3 h-[50px]">
+		<div class="text-xs text-muted-foreground font-mono">
+		  {{ counts.all }} entries in vault
+		</div>
+		<Button variant="ghost" size="icon" class="h-8 w-8" @click="router.post(route('logout'))">
+		  <PhSignOut class="h-4 w-4 text-white" weight="thin" />
+		</Button>
+	  </div>
 
-      <!-- Detail -->
-      <div class="flex-1 overflow-hidden">
-        <EntryDetail
-          :entry="currentSelected"
-          @edit="openEdit"
-          @delete="deleteEntry"
-          @togglePin="togglePin"
-        />
-      </div>
-    </div>
+	  <!-- Detail -->
+	  <div class="flex-1 overflow-hidden">
+		<EntryDetail
+		  :entry="currentSelected"
+		  @edit="openEdit"
+		  @delete="deleteEntry"
+		  @togglePin="togglePin"
+		/>
+	  </div>
+	</div>
   </div>
 
   <!-- Dialogs -->
   <EntryForm :open="showForm" :entry="editingEntry" @close="closeForm" />
   <SearchCommand v-model:open="showSearch" :entries="allEntries" @select="selectEntry" />
   <ConfirmDialog
-    :open="showConfirm"
-    title="Delete entry"
-    :description="'This will permanently delete &quot;' + (pendingDelete?.title || 'this entry') + '&quot;. This action cannot be undone.'"
-    confirmText="Delete"
-    variant="destructive"
-    @confirm="confirmDelete"
-    @cancel="cancelDelete"
+	:open="showConfirm"
+	title="Delete entry"
+	:description="'This will permanently delete &quot;' + (pendingDelete?.title || 'this entry') + '&quot;. This action cannot be undone.'"
+	confirmText="Delete"
+	variant="destructive"
+	@confirm="confirmDelete"
+	@cancel="cancelDelete"
   />
 </template>

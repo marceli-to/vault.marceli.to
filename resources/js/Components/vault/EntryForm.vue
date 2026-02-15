@@ -16,9 +16,9 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const types = [
-  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
-  { value: 'link', label: 'Link', icon: PhLink, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
-  { value: 'note', label: 'Note', icon: PhNote, color: 'text-emerald-300 bg-emerald-400/10 border-emerald-500/20' },
+  { value: 'idea', label: 'Idea', icon: PhLightbulb, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
+  { value: 'link', label: 'Link', icon: PhLink, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
+  { value: 'note', label: 'Note', icon: PhNote, color: 'text-violet-500 bg-violet-400/10 border-violet-500/20' },
 ]
 
 const form = useForm({
@@ -34,14 +34,14 @@ const tagInput = ref('')
 
 watch(() => props.entry, (entry) => {
   if (entry) {
-    form.title = entry.title || ''
-    form.content = entry.content || ''
-    form.url = entry.url || ''
-    form.type = entry.type || 'note'
-    form.tags = entry.tags ? [...entry.tags] : []
-    form.is_pinned = entry.is_pinned || false
+	form.title = entry.title || ''
+	form.content = entry.content || ''
+	form.url = entry.url || ''
+	form.type = entry.type || 'note'
+	form.tags = entry.tags ? [...entry.tags] : []
+	form.is_pinned = entry.is_pinned || false
   } else {
-    form.reset()
+	form.reset()
   }
 }, { immediate: true })
 
@@ -53,7 +53,7 @@ watch(() => props.open, (val) => {
 function addTag() {
   const tag = tagInput.value.trim().toLowerCase()
   if (tag && !form.tags.includes(tag)) {
-    form.tags.push(tag)
+	form.tags.push(tag)
   }
   tagInput.value = ''
 }
@@ -64,86 +64,86 @@ function removeTag(tag) {
 
 function submit() {
   if (props.entry) {
-    form.put(route('entries.update', props.entry.id), {
-      preserveScroll: true,
-      onSuccess: () => emit('close'),
-    })
+	form.put(route('entries.update', props.entry.id), {
+	  preserveScroll: true,
+	  onSuccess: () => emit('close'),
+	})
   } else {
-    form.post(route('entries.store'), {
-      preserveScroll: true,
-      onSuccess: () => { form.reset(); emit('close') },
-    })
+	form.post(route('entries.store'), {
+	  preserveScroll: true,
+	  onSuccess: () => { form.reset(); emit('close') },
+	})
   }
 }
 </script>
 
 <template>
   <Dialog :open="open" @update:open="$emit('close')">
-    <DialogContent class="sm:max-w-lg">
-      <DialogHeader>
-        <DialogTitle>{{ entry ? 'Edit Entry' : 'New Entry' }}</DialogTitle>
-        <DialogDescription class="text-sm text-muted-foreground">{{ entry ? 'Update the details of this entry.' : 'Add a new entry to your vault.' }}</DialogDescription>
-      </DialogHeader>
+	<DialogContent class="sm:max-w-lg">
+	  <DialogHeader>
+		<DialogTitle>{{ entry ? 'Edit Entry' : 'New Entry' }}</DialogTitle>
+		<DialogDescription class="text-sm text-muted-foreground">{{ entry ? 'Update the details of this entry.' : 'Add a new entry to your vault.' }}</DialogDescription>
+	  </DialogHeader>
 
-      <form @submit.prevent="submit" class="space-y-4">
-        <!-- Type selector -->
-        <div class="flex gap-2">
-          <button
-            v-for="t in types"
-            :key="t.value"
-            type="button"
-            @click="form.type = t.value"
-            :class="[
-              'flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all',
-              form.type === t.value ? t.color : 'border-border text-muted-foreground hover:bg-secondary'
-            ]"
-          >
-            <component :is="t.icon" class="h-3.5 w-3.5" weight="thin" />
-            {{ t.label }}
-          </button>
-        </div>
+	  <form @submit.prevent="submit" class="space-y-4">
+		<!-- Type selector -->
+		<div class="flex gap-2">
+		  <button
+			v-for="t in types"
+			:key="t.value"
+			type="button"
+			@click="form.type = t.value"
+			:class="[
+			  'flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all',
+			  form.type === t.value ? t.color : 'border-border text-muted-foreground hover:bg-secondary'
+			]"
+		  >
+			<component :is="t.icon" class="h-3.5 w-3.5" weight="thin" />
+			{{ t.label }}
+		  </button>
+		</div>
 
-        <Input v-model="form.title" placeholder="Title (optional)" />
+		<Input v-model="form.title" placeholder="Title (optional)" />
 
-        <Textarea
-          v-model="form.content"
-          placeholder="What's on your mind?"
-          class="min-h-[120px] resize-none"
-        />
+		<Textarea
+		  v-model="form.content"
+		  placeholder="What's on your mind?"
+		  class="min-h-[120px] resize-none"
+		/>
 
-        <Input v-model="form.url" placeholder="URL (optional)" />
+		<Input v-model="form.url" placeholder="URL (optional)" />
 
-        <!-- Tags -->
-        <div>
-          <div class="flex flex-wrap gap-1.5 mb-2" v-if="form.tags.length">
-            <span
-              v-for="tag in form.tags"
-              :key="tag"
-              class="inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-xs text-emerald-300"
-            >
-              {{ tag }}
-              <button type="button" @click="removeTag(tag)" class="hover:text-emerald-200">&times;</button>
-            </span>
-          </div>
-          <Input
-            v-model="tagInput"
-            placeholder="Add tag and press Enter"
-            @keydown.enter.prevent="addTag"
-          />
-        </div>
+		<!-- Tags -->
+		<div>
+		  <div class="flex flex-wrap gap-1.5 mb-2" v-if="form.tags.length">
+			<span
+			  v-for="tag in form.tags"
+			  :key="tag"
+			  class="inline-flex items-center gap-1 rounded-full bg-violet-400/10 px-2 py-0.5 text-xs text-violet-500"
+			>
+			  {{ tag }}
+			  <button type="button" @click="removeTag(tag)" class="hover:text-violet-200">&times;</button>
+			</span>
+		  </div>
+		  <Input
+			v-model="tagInput"
+			placeholder="Add tag and press Enter"
+			@keydown.enter.prevent="addTag"
+		  />
+		</div>
 
-        <label class="flex items-center gap-2 text-sm cursor-pointer">
-          <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-zinc-600 data-[state=checked]:bg-emerald-400 data-[state=checked]:border-emerald-600" />
-          Pin this entry
-        </label>
+		<label class="flex items-center gap-2 text-sm cursor-pointer">
+		  <Checkbox :checked="form.is_pinned" @update:checked="form.is_pinned = $event" class="border-zinc-600 data-[state=checked]:bg-violet-400 data-[state=checked]:border-violet-600" />
+		  Pin this entry
+		</label>
 
-        <DialogFooter>
-          <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
-          <Button type="submit" :disabled="form.processing || !form.content" class="bg-emerald-400 hover:bg-emerald-500">
-            {{ entry ? 'Update' : 'Create' }}
-          </Button>
-        </DialogFooter>
-      </form>
-    </DialogContent>
+		<DialogFooter>
+		  <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
+		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-violet-400 hover:bg-violet-500">
+			{{ entry ? 'Update' : 'Create' }}
+		  </Button>
+		</DialogFooter>
+	  </form>
+	</DialogContent>
   </Dialog>
 </template>

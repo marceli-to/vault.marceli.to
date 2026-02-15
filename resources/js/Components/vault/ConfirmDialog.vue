@@ -1,56 +1,50 @@
 <script setup>
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/Components/ui/alert-dialog'
-import { PhWarning } from '@phosphor-icons/vue'
+import { Button } from '@/Components/ui/button'
 
 const props = defineProps({
-  open: { type: Boolean, default: false },
-  title: { type: String, default: 'Are you sure?' },
-  description: { type: String, default: 'This action cannot be undone.' },
-  confirmText: { type: String, default: 'Delete' },
-  cancelText: { type: String, default: 'Cancel' },
-  variant: { type: String, default: 'destructive' }, // destructive | default
+	open: { type: Boolean, default: false },
+	title: { type: String, default: 'Are you sure?' },
+	description: { type: String, default: 'This action cannot be undone.' },
+	confirmText: { type: String, default: 'Delete' },
+	cancelText: { type: String, default: 'Cancel' },
+	variant: { type: String, default: 'destructive' },
 })
 
 const emit = defineEmits(['confirm', 'cancel'])
 </script>
 
 <template>
-  <AlertDialog :open="open" @update:open="val => !val && emit('cancel')">
-    <AlertDialogContent class="border-zinc-800 bg-zinc-900 sm:max-w-md">
-      <AlertDialogHeader>
-        <AlertDialogTitle class="text-zinc-100">{{ title }}</AlertDialogTitle>
-        <AlertDialogDescription class="mt-1 text-zinc-400">
-          {{ description }}
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter class="mt-4 gap-2 sm:gap-2">
-        <AlertDialogCancel
-          class="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
-          @click="emit('cancel')"
-        >
-          {{ cancelText }}
-        </AlertDialogCancel>
-        <AlertDialogAction
-          :class="[
-            'font-medium',
-            variant === 'destructive'
-              ? 'bg-red-600 text-white hover:bg-red-700'
-              : 'bg-emerald-400 text-white hover:bg-emerald-500'
-          ]"
-          @click="emit('confirm')"
-        >
-          {{ confirmText }}
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
+	<Teleport to="body">
+		<div v-if="open" class="fixed inset-0 z-50 flex items-center justify-center">
+			<!-- Overlay -->
+			<div class="fixed inset-0 bg-black/80" @click="emit('cancel')" />
+
+			<!-- Dialog -->
+			<div class="relative z-50 w-full max-w-md rounded-lg border border-zinc-800 bg-zinc-900 p-6 shadow-lg animate-in fade-in zoom-in-95 duration-200">
+				<h2 class="text-lg font-semibold text-zinc-100">{{ title }}</h2>
+				<p class="mt-1 text-sm text-zinc-400">{{ description }}</p>
+
+				<div class="mt-4 flex justify-end gap-2">
+					<Button
+						variant="outline"
+						class="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+						@click="emit('cancel')"
+					>
+						{{ cancelText }}
+					</Button>
+					<Button
+						:class="[
+							'font-medium',
+							variant === 'destructive'
+								? 'bg-red-600 text-white hover:bg-red-700'
+								: 'bg-violet-400 text-white hover:bg-violet-500'
+						]"
+						@click="emit('confirm')"
+					>
+						{{ confirmText }}
+					</Button>
+				</div>
+			</div>
+		</div>
+	</Teleport>
 </template>

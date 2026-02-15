@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
-    protected $fillable = [
-        'user_id', 'title', 'description', 'status', 'priority', 'due_date', 'tags', 'sort_order',
-    ];
+	protected $fillable = [
+		'user_id', 'title', 'description', 'status', 'priority', 'due_date', 'tags', 'sort_order',
+	];
 
-    protected $casts = [
-        'tags' => 'array',
-        'due_date' => 'date',
-    ];
+	protected $casts = [
+		'tags' => 'array',
+		'due_date' => 'date',
+	];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
+	}
 }
