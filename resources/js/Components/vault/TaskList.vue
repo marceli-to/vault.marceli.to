@@ -20,7 +20,7 @@ const statusIcons = {
 const statusColors = {
 	open: 'text-zinc-400',
 	in_progress: 'text-amber-400',
-	done: 'text-amber-500',
+	done: 'text-green-700 dark:text-green-500',
 }
 
 const priorityIndicator = {

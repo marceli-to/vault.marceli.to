@@ -9,7 +9,7 @@ const statusLabels = { open: 'Open', in_progress: 'In Progress', done: 'Done' }
 const statusColors = {
 	open: 'text-zinc-400 bg-zinc-400/10',
 	in_progress: 'text-amber-400 bg-amber-400/10',
-	done: 'text-amber-500 bg-amber-400/10',
+	done: 'text-green-700 dark:text-green-500 bg-green-400/10',
 }
 const priorityLabels = { low: 'Low', normal: 'Normal', high: 'High' }
 const priorityColors = {
@@ -58,6 +58,10 @@ function cycleStatus() {
 					<span :class="['rounded-full px-2 py-0.5 text-xs font-medium', priorityColors[task.priority]]">
 						{{ priorityLabels[task.priority] }}
 					</span>
+					<span v-if="task.due_date" class="flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-muted-foreground bg-secondary/50">
+						<PhCalendar class="h-3 w-3" weight="thin" />
+						{{ formatDueDate(task.due_date) }}
+					</span>
 				</div>
 				<h1 :class="['text-xl font-semibold tracking-tight', task.status === 'done' ? 'line-through text-muted-foreground' : '']">
 					{{ task.title }}
@@ -80,11 +84,6 @@ function cycleStatus() {
 			</div>
 			<div v-else class="text-sm text-muted-foreground/50 italic">
 				No description
-			</div>
-
-			<div v-if="task.due_date" class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-muted-foreground">
-				<PhCalendar class="h-4 w-4 text-foreground" weight="thin" />
-				Due: {{ formatDueDate(task.due_date) }}
 			</div>
 		</div>
 

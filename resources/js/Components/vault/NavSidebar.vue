@@ -20,7 +20,21 @@ const props = defineProps({
 })
 
 const showTags = ref(false)
+const showAllTags = ref(false)
+const tagSearch = ref('')
 const isDark = ref(document.documentElement.classList.contains('dark'))
+
+const TAG_LIMIT = 10
+
+const filteredTags = computed(() => {
+	if (!props.tags.length) return []
+	const q = tagSearch.value.trim().toLowerCase()
+	if (q) return props.tags.filter(t => t.name.toLowerCase().includes(q))
+	if (showAllTags.value) return props.tags
+	return props.tags.slice(0, TAG_LIMIT)
+})
+
+const hasMoreTags = computed(() => !tagSearch.value && props.tags.length > TAG_LIMIT)
 
 function toggleTheme() {
 	isDark.value = !isDark.value
@@ -248,10 +262,18 @@ function switchPage(target) {
 		<PhTag class="h-4 w-4 text-muted-foreground" weight="thin" />
 		<span class="text-xs font-semibold tracking-tight text-muted-foreground uppercase">Tags</span>
 	  </div>
-	  <ScrollArea class="h-[calc(100%-50px)]">
+	  <div class="px-2 pt-2">
+		<input
+		  v-model="tagSearch"
+		  type="text"
+		  placeholder="Filter…"
+		  class="w-full rounded-md border border-border bg-secondary/30 px-2 py-1 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-ring"
+		/>
+	  </div>
+	  <ScrollArea class="h-[calc(100%-90px)]">
 		<div class="py-2 px-2">
 		  <button
-			v-for="tag in tags"
+			v-for="tag in filteredTags"
 			:key="tag.name"
 			@click="navigateTag(tag.name)"
 			:class="[
@@ -264,6 +286,13 @@ function switchPage(target) {
 			<span :class="['h-2 w-2 rounded-full shrink-0', getTagColor(tag.name).dot]" />
 			<span class="truncate flex-1 text-left">{{ tag.name }}</span>
 			<span class="text-xs text-muted-foreground/60 shrink-0">{{ tag.count }}</span>
+		  </button>
+		  <button
+			v-if="hasMoreTags"
+			@click="showAllTags = !showAllTags"
+			class="flex w-full items-center justify-center rounded-md px-2 py-1.5 text-xs text-muted-foreground/60 hover:text-muted-foreground transition-all"
+		  >
+			{{ showAllTags ? 'Show less' : `Show all (${tags.length})` }}
 		  </button>
 		</div>
 	  </ScrollArea>
