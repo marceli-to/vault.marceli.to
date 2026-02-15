@@ -15,15 +15,6 @@ class AppSeed extends Command
 
     public function handle(): void
     {
-        $user = User::firstOrCreate(
-            ['email' => 'm@marceli.to'],
-            [
-                'name' => 'Marceli',
-                'password' => Hash::make('vault2024'),
-                'api_token' => 'vlt_74cfb897803c842d4791ef5610b1188368c6c8a4f616b9c8',
-            ]
-        );
-
         $entries = [
             [
                 'title' => 'Second Brain System',
