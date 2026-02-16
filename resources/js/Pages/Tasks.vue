@@ -6,7 +6,7 @@ import TaskList from '@/Components/vault/TaskList.vue'
 import TaskDetail from '@/Components/vault/TaskDetail.vue'
 import TaskForm from '@/Components/vault/TaskForm.vue'
 import ConfirmDialog from '@/Components/vault/ConfirmDialog.vue'
-import { PhArrowLeft, PhCheckCircle, PhCircle, PhCircleHalf, PhList, PhMagnifyingGlass, PhPlus, PhSignOut, PhX } from '@phosphor-icons/vue'
+import { PhArrowLeft, PhCheckCircle, PhCircle, PhCircleHalf, PhList, PhMagnifyingGlass, PhPlus, PhSignOut, PhStack, PhX } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 
 const props = defineProps({
@@ -127,30 +127,20 @@ const currentSelected = computed(() => {
 			<div v-if="showMobileMenu" class="fixed inset-0 z-50 md:hidden">
 				<div class="absolute inset-0 bg-black/70" @click="showMobileMenu = false" />
 				<div class="absolute inset-y-0 left-0 w-[86vw] max-w-sm border-r border-border bg-background p-4 overflow-y-auto">
-					<div class="-mx-4 -mt-4 mb-3 flex h-[50px] items-center border-b border-border px-2">
+					<div class="-mx-4 -mt-4 mb-3 flex h-[50px] items-center justify-between border-b border-border px-2">
 						<Button variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = false">
 							<PhX class="h-4 w-4 text-foreground" weight="thin" />
 						</Button>
+						<button
+							@click="showMobileMenu = false; router.get(route('dashboard'))"
+							class="flex items-center gap-1.5 px-2 py-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+						>
+							<PhStack class="h-4 w-4" weight="thin" />
+							Entries
+						</button>
 					</div>
 
 					<div class="space-y-5">
-						<!-- Page switcher -->
-						<div class="flex gap-2">
-							<button
-								@click="showMobileMenu = false; router.get(route('dashboard'))"
-								class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-all"
-							>
-								<PhList class="h-4 w-4" weight="thin" />
-								Entries
-							</button>
-							<button
-								class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400 transition-all"
-							>
-								<PhCheckCircle class="h-4 w-4" weight="thin" />
-								Tasks
-							</button>
-						</div>
-
 						<div class="space-y-2">
 							<button
 								v-for="item in navItems"
