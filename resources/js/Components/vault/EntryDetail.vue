@@ -63,10 +63,10 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		v-if="entry.url"
 		:href="entry.url"
 		target="_blank"
-		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-amber-500 dark:text-violet-400 transition-colors hover:bg-secondary"
+		class="mt-4 flex items-center gap-2 rounded-lg bg-secondary/30 py-2 text-sm text-amber-500 dark:text-violet-400 transition-colors hover:bg-secondary max-w-full overflow-hidden"
 	  >
-		<PhArrowSquareOut class="h-4 w-4 text-foreground" weight="thin" />
-		{{ entry.url }}
+		<PhArrowSquareOut class="h-4 w-4 shrink-0 text-foreground" weight="thin" />
+		<span class="truncate">{{ entry.url }}</span>
 	  </a>
 	</div>
 
