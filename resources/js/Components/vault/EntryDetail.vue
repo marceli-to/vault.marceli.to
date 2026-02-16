@@ -33,7 +33,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		  <span class="rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground capitalize">
 			{{ typeLabels[entry.type] }}
 		  </span>
-		  <span v-if="entry.is_pinned" class="rounded-full bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-600 dark:text-yellow-400">
+		  <span v-if="entry.is_pinned" class="rounded-full bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-600 dark:bg-violet-500/10 dark:text-violet-400">
 			Pinned
 		  </span>
 		</div>

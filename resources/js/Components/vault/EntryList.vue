@@ -69,8 +69,8 @@ function timeAgo(date) {
 			>
 			  <div class="flex items-center gap-2">
 				<TypeIcon :type="entry.type" class="h-3 w-3 shrink-0" />
-				<span :class="['truncate text-sm font-medium', entry.is_pinned ? 'text-yellow-600 dark:text-yellow-400' : '']">{{ entry.title || truncate(entry.content, 40) }}</span>
-				<PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-yellow-600 dark:text-yellow-400" weight="thin" />
+				<span :class="['truncate text-sm font-medium', entry.is_pinned ? 'text-yellow-600 dark:text-violet-400' : '']">{{ entry.title || truncate(entry.content, 40) }}</span>
+				<PhPushPin v-if="entry.is_pinned" class="ml-auto h-3 w-3 shrink-0 text-yellow-600 dark:text-violet-400" weight="thin" />
 			  </div>
 			  <div class="flex items-center gap-2 pl-5">
 				<span class="truncate text-xs text-muted-foreground">{{ truncate(entry.content, 50) }}</span>
