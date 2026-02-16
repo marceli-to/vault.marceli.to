@@ -6,7 +6,7 @@ import TaskList from '@/Components/vault/TaskList.vue'
 import TaskDetail from '@/Components/vault/TaskDetail.vue'
 import TaskForm from '@/Components/vault/TaskForm.vue'
 import ConfirmDialog from '@/Components/vault/ConfirmDialog.vue'
-import { PhCheckCircle, PhCircle, PhCircleHalf, PhList, PhPlus, PhSignOut, PhX } from '@phosphor-icons/vue'
+import { PhArrowLeft, PhCheckCircle, PhCircle, PhCircleHalf, PhList, PhMagnifyingGlass, PhPlus, PhSignOut, PhX } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 
 const props = defineProps({
@@ -93,19 +93,18 @@ const currentSelected = computed(() => {
 	<div class="h-screen bg-background md:hidden">
 		<div class="flex h-full flex-col">
 			<div class="flex h-[50px] items-center justify-between border-b border-border px-2">
-				<Button variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = true">
+				<Button v-if="currentSelected" variant="ghost" size="icon" class="h-8 w-8" @click="closeMobileDetail">
+					<PhArrowLeft class="h-4 w-4 text-foreground" weight="thin" />
+				</Button>
+				<Button v-else variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = true">
 					<PhList class="h-4 w-4 text-foreground" weight="thin" />
 				</Button>
-				<div class="text-xs font-mono text-muted-foreground">{{ props.counts.all }} tasks</div>
+				<div class="text-xs font-mono text-muted-foreground">{{ props.counts.open }} open</div>
 				<div class="flex items-center gap-1">
 					<Button variant="ghost" size="icon" class="h-8 w-8" @click="openCreate">
 						<PhPlus class="h-4 w-4 text-foreground" weight="thin" />
 					</Button>
 				</div>
-			</div>
-
-			<div v-if="currentSelected" class="border-b border-border px-2 py-1.5">
-				<Button variant="ghost" class="h-7 px-2 text-xs" @click="closeMobileDetail">Back to list</Button>
 			</div>
 
 			<div class="flex-1 overflow-hidden">
@@ -128,33 +127,37 @@ const currentSelected = computed(() => {
 			<div v-if="showMobileMenu" class="fixed inset-0 z-50 md:hidden">
 				<div class="absolute inset-0 bg-black/70" @click="showMobileMenu = false" />
 				<div class="absolute inset-y-0 left-0 w-[86vw] max-w-sm border-r border-border bg-background p-4 overflow-y-auto">
-					<div class="mb-4 flex items-center">
+					<div class="-mx-4 -mt-4 mb-3 flex h-[50px] items-center border-b border-border px-2">
 						<Button variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = false">
 							<PhX class="h-4 w-4 text-foreground" weight="thin" />
 						</Button>
 					</div>
 
-					<div class="space-y-2">
-						<button
-							v-for="item in navItems"
-							:key="item.label"
-							@click="navigate(item)"
-							:class="[
-								'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-left text-sm transition-all',
-								activeStatus === item.type
-									? 'bg-amber-500/15 text-amber-600 dark:text-violet-400'
-									: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
-							]"
-						>
-							<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeStatus === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
-							<span class="truncate">{{ item.label }}</span>
-							<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
-						</button>
+					<div class="space-y-5">
+						<div class="space-y-2">
+							<button
+								v-for="item in navItems"
+								:key="item.label"
+								@click="navigate(item)"
+								:class="[
+									'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-left text-sm transition-all',
+									activeStatus === item.type
+										? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
+										: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+								]"
+							>
+								<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeStatus === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
+								<span class="truncate">{{ item.label }}</span>
+								<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
+							</button>
+						</div>
 
-						<Button variant="outline" class="mt-4 w-full" @click="router.post(route('logout'))">
-							<PhSignOut class="mr-2 h-4 w-4" weight="thin" />
-							Log out
-						</Button>
+						<div class="border-t border-border pt-4">
+							<Button variant="ghost" class="w-full justify-start gap-2 text-muted-foreground" @click="router.post(route('logout'))">
+								<PhSignOut class="h-4 w-4" weight="thin" />
+								Log out
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
