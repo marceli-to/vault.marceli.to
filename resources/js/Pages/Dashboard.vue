@@ -14,6 +14,7 @@ import {
   PhMagnifyingGlass,
   PhNote,
   PhArrowLeft,
+  PhCheckSquare,
   PhPlus,
   PhPushPin,
   PhSignOut,
@@ -205,6 +206,23 @@ const currentSelected = computed(() => {
         </div>
 
         <div class="space-y-5">
+        <!-- Page switcher -->
+        <div class="flex gap-2">
+          <button
+            class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400 transition-all"
+          >
+            <PhStack class="h-4 w-4" weight="thin" />
+            Entries
+          </button>
+          <button
+            @click="showMobileMenu = false; router.get(route('tasks.index'))"
+            class="flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-all"
+          >
+            <PhCheckSquare class="h-4 w-4" weight="thin" />
+            Tasks
+          </button>
+        </div>
+
         <div class="space-y-2">
         			  <button
 				v-for="item in navItems"
