@@ -157,13 +157,13 @@ const currentSelected = computed(() => {
 								:key="item.label"
 								@click="navigate(item)"
 								:class="[
-									'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-left text-sm transition-all',
+									'flex w-full items-center gap-2 rounded-md px-1.5 py-1.5 text-left text-sm transition-all',
 									activeStatus === item.type
-										? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
+										? 'text-amber-600 dark:text-violet-400'
 										: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
 								]"
 							>
-								<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeStatus === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
+								<component :is="item.icon" :class="['h-3.5 w-3.5 shrink-0', activeStatus === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
 								<span class="truncate">{{ item.label }}</span>
 								<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
 							</button>
