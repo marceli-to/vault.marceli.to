@@ -159,12 +159,14 @@ const currentSelected = computed(() => {
 							</button>
 						</div>
 
-						<div class="border-t border-border pt-4">
-							<Button variant="ghost" class="w-full justify-start gap-2 text-muted-foreground" @click="router.post(route('logout'))">
-								<PhSignOut class="h-4 w-4" weight="thin" />
-								Log out
-							</Button>
-						</div>
+						<button
+							type="button"
+							class="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground"
+							@click="router.post(route('logout'))"
+						>
+							<PhSignOut class="h-3.5 w-3.5" weight="thin" />
+							<span>Log out</span>
+						</button>
 					</div>
 				</div>
 			</div>
