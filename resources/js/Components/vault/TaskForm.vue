@@ -74,7 +74,7 @@ function submit() {
 
 <template>
 	<Dialog :open="open" @update:open="$emit('close')">
-		<DialogContent class="sm:max-w-lg">
+		<DialogContent class="w-[calc(100vw-1.5rem)] sm:w-full sm:max-w-lg">
 			<DialogHeader>
 				<DialogTitle>{{ task ? 'Edit Task' : 'New Task' }}</DialogTitle>
 				<DialogDescription class="text-sm text-muted-foreground">{{ task ? 'Update this task.' : 'Create a new task.' }}</DialogDescription>
@@ -135,7 +135,7 @@ function submit() {
 					<Input v-model="form.due_date" type="date" />
 				</div>
 
-				<DialogFooter>
+				<DialogFooter class="pt-1 gap-3 sm:gap-3">
 					<Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
 					<Button type="submit" :disabled="form.processing || !form.title" class="bg-amber-600 hover:bg-amber-700">
 						{{ task ? 'Update' : 'Create' }}
