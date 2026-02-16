@@ -65,7 +65,7 @@ const typeLabels = { idea: 'Idea', link: 'Link', note: 'Note', reference: 'Refer
 		v-if="entry.url"
 		:href="entry.url"
 		target="_blank"
-		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-amber-500 transition-colors hover:bg-secondary"
+		class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-3 py-2 text-sm text-amber-500 dark:text-violet-400 transition-colors hover:bg-secondary"
 	  >
 		<PhArrowSquareOut class="h-4 w-4 text-foreground" weight="thin" />
 		{{ entry.url }}
