@@ -79,7 +79,7 @@ function submit() {
 
 <template>
   <Dialog :open="open" @update:open="$emit('close')">
-	<DialogContent class="sm:max-w-lg">
+	<DialogContent class="w-[calc(100vw-1.5rem)] sm:w-full sm:max-w-lg">
 	  <DialogHeader>
 		<DialogTitle>{{ entry ? 'Edit Entry' : 'New Entry' }}</DialogTitle>
 		<DialogDescription class="text-sm text-muted-foreground">{{ entry ? 'Update the details of this entry.' : 'Add a new entry to your vault.' }}</DialogDescription>
@@ -87,7 +87,7 @@ function submit() {
 
 	  <form @submit.prevent="submit" class="space-y-4">
 		<!-- Type selector -->
-		<div class="flex gap-2">
+		<div class="flex flex-wrap gap-3">
 		  <button
 			v-for="t in types"
 			:key="t.value"
@@ -137,7 +137,7 @@ function submit() {
 		  Pin this entry
 		</label>
 
-		<DialogFooter>
+		<DialogFooter class="pt-1 gap-3 sm:gap-3">
 		  <Button type="button" variant="outline" @click="$emit('close')">Cancel</Button>
 		  <Button type="submit" :disabled="form.processing || !form.content" class="bg-amber-600 hover:bg-amber-700">
 			{{ entry ? 'Update' : 'Create' }}

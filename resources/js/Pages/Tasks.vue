@@ -6,7 +6,7 @@ import TaskList from '@/Components/vault/TaskList.vue'
 import TaskDetail from '@/Components/vault/TaskDetail.vue'
 import TaskForm from '@/Components/vault/TaskForm.vue'
 import ConfirmDialog from '@/Components/vault/ConfirmDialog.vue'
-import { PhSignOut } from '@phosphor-icons/vue'
+import { PhCheckCircle, PhCircle, PhCircleHalf, PhList, PhPlus, PhSignOut, PhX } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 
 const props = defineProps({
@@ -20,6 +20,7 @@ const showForm = ref(false)
 const editingTask = ref(null)
 const showConfirm = ref(false)
 const pendingDelete = ref(null)
+const showMobileMenu = ref(false)
 
 function selectTask(task) {
 	selectedTask.value = task
@@ -61,6 +62,25 @@ function cancelDelete() {
 	pendingDelete.value = null
 }
 
+function closeMobileDetail() {
+	selectedTask.value = null
+}
+
+const navItems = computed(() => ([
+	{ label: 'All Tasks', type: null, icon: PhList, count: props.counts.all },
+	{ label: 'Open', type: 'open', icon: PhCircle, count: props.counts.open },
+	{ label: 'In Progress', type: 'in_progress', icon: PhCircleHalf, count: props.counts.in_progress },
+	{ label: 'Done', type: 'done', icon: PhCheckCircle, count: props.counts.done },
+]))
+
+const activeStatus = computed(() => props.filters?.status || null)
+
+function navigate(item) {
+	const params = item.type ? { status: item.type } : {}
+	showMobileMenu.value = false
+	router.get(route('tasks.index'), params, { preserveState: true, preserveScroll: true })
+}
+
 const currentSelected = computed(() => {
 	if (!selectedTask.value) return null
 	return props.tasks.find(t => t.id === selectedTask.value.id) || null
@@ -70,10 +90,81 @@ const currentSelected = computed(() => {
 <template>
 	<Head title="Tasks" />
 
-	<div class="flex h-screen bg-background">
+	<div class="h-screen bg-background md:hidden">
+		<div class="flex h-full flex-col">
+			<div class="flex h-[50px] items-center justify-between border-b border-border px-2">
+				<Button variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = true">
+					<PhList class="h-4 w-4 text-foreground" weight="thin" />
+				</Button>
+				<div class="text-xs font-mono text-muted-foreground">{{ props.counts.all }} tasks</div>
+				<div class="flex items-center gap-1">
+					<Button variant="ghost" size="icon" class="h-8 w-8" @click="openCreate">
+						<PhPlus class="h-4 w-4 text-foreground" weight="thin" />
+					</Button>
+				</div>
+			</div>
+
+			<div v-if="currentSelected" class="border-b border-border px-2 py-1.5">
+				<Button variant="ghost" class="h-7 px-2 text-xs" @click="closeMobileDetail">Back to list</Button>
+			</div>
+
+			<div class="flex-1 overflow-hidden">
+				<TaskList
+					v-if="!currentSelected"
+					:tasks="tasks"
+					:filters="filters"
+					:selectedId="currentSelected?.id"
+					@select="selectTask"
+				/>
+
+				<TaskDetail
+					v-else
+					:task="currentSelected"
+					@edit="openEdit"
+					@delete="deleteTask"
+				/>
+			</div>
+
+			<div v-if="showMobileMenu" class="fixed inset-0 z-50 md:hidden">
+				<div class="absolute inset-0 bg-black/70" @click="showMobileMenu = false" />
+				<div class="absolute inset-y-0 left-0 w-[86vw] max-w-sm border-r border-border bg-background p-4 overflow-y-auto">
+					<div class="mb-4 flex items-center">
+						<Button variant="ghost" size="icon" class="h-8 w-8" @click="showMobileMenu = false">
+							<PhX class="h-4 w-4 text-foreground" weight="thin" />
+						</Button>
+					</div>
+
+					<div class="space-y-2">
+						<button
+							v-for="item in navItems"
+							:key="item.label"
+							@click="navigate(item)"
+							:class="[
+								'flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-left text-sm transition-all',
+								activeStatus === item.type
+									? 'bg-amber-500/15 text-amber-600 dark:text-violet-400'
+									: 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+							]"
+						>
+							<component :is="item.icon" :class="['h-4 w-4 shrink-0', activeStatus === item.type ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
+							<span class="truncate">{{ item.label }}</span>
+							<span class="ml-auto text-xs opacity-60">{{ item.count }}</span>
+						</button>
+
+						<Button variant="outline" class="mt-4 w-full" @click="router.post(route('logout'))">
+							<PhSignOut class="mr-2 h-4 w-4" weight="thin" />
+							Log out
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hidden h-screen bg-background md:flex">
 		<!-- Column 1: Nav sidebar -->
 		<NavSidebar
-			:counts="counts"
+			:counts="props.counts"
 			:filters="filters"
 			page="tasks"
 			@create="openCreate"
@@ -92,7 +183,7 @@ const currentSelected = computed(() => {
 			<!-- Top bar -->
 			<div class="flex items-center justify-between border-b border-border pl-6 pr-3 h-[50px]">
 				<div class="text-xs text-muted-foreground font-mono">
-					{{ counts.all }} tasks · {{ counts.open }} open
+					{{ props.counts.all }} tasks · {{ props.counts.open }} open
 				</div>
 				<Button variant="ghost" size="icon" class="h-8 w-8" @click="router.post(route('logout'))">
 					<PhSignOut class="h-4 w-4 text-foreground" weight="thin" />

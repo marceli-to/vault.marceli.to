@@ -41,7 +41,7 @@ function timeAgo(date) {
 </script>
 
 <template>
-  <div class="flex h-full w-[25rem] flex-col border-r border-border bg-background">
+  <div class="flex h-full w-full flex-col border-b border-border bg-background md:w-[25rem] md:border-b-0 md:border-r">
 	<!-- Header -->
 	<div class="flex items-center justify-between px-4 border-b border-border h-[50px]">
 	  <h2 class="text-sm font-semibold tracking-tight">{{ title }}</h2>

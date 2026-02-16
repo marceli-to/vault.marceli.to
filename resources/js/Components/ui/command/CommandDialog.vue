@@ -1,6 +1,6 @@
 <script setup>
 import { useForwardPropsEmits } from "reka-ui";
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription } from '@/Components/ui/dialog';
 import Command from "./Command.vue";
 
 const props = defineProps({
@@ -15,7 +15,8 @@ const forwarded = useForwardPropsEmits(props, emits);
 
 <template>
   <Dialog v-bind="forwarded">
-    <DialogContent class="overflow-hidden p-0 shadow-lg [&>button]:top-3 [&>button]:right-3">
+    <DialogContent class="w-[calc(100vw-1.5rem)] overflow-hidden p-0 shadow-lg [&>button]:top-3 [&>button]:right-3 sm:w-full">
+      <DialogDescription class="sr-only">Search entries in your vault</DialogDescription>
       <Command
         class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-4 [&_[cmdk-input-wrapper]_svg]:w-4 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"
       >

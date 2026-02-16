@@ -47,9 +47,9 @@ function cycleStatus() {
 <template>
 	<div v-if="task" class="flex h-full flex-col">
 		<!-- Header -->
-		<div class="flex items-start justify-between border-b border-border p-6 pb-4">
+		<div class="flex flex-col gap-3 border-b border-border p-4 md:flex-row md:items-start md:justify-between md:gap-4 md:p-6 md:pb-4">
 			<div class="flex-1 space-y-2">
-				<div class="flex items-center gap-2">
+				<div class="flex flex-wrap items-center gap-2">
 					<button @click="cycleStatus" class="transition-transform hover:scale-110">
 						<span :class="['rounded-full px-2 py-0.5 text-xs font-medium', statusColors[task.status]]">
 							{{ statusLabels[task.status] }}
@@ -63,11 +63,11 @@ function cycleStatus() {
 						{{ formatDueDate(task.due_date) }}
 					</span>
 				</div>
-				<h1 :class="['text-xl font-semibold tracking-tight', task.status === 'done' ? 'line-through text-muted-foreground' : '']">
+				<h1 :class="['text-lg font-semibold tracking-tight md:text-xl', task.status === 'done' ? 'line-through text-muted-foreground' : '']">
 					{{ task.title }}
 				</h1>
 			</div>
-			<div class="flex items-center gap-1">
+			<div class="flex items-center gap-1 self-end md:self-auto">
 				<Button variant="ghost" size="icon" class="h-8 w-8" @click="emit('edit', task)">
 					<PhPencilSimple class="h-4 w-4 text-foreground" weight="thin" />
 				</Button>
@@ -78,7 +78,7 @@ function cycleStatus() {
 		</div>
 
 		<!-- Content -->
-		<div class="flex-1 overflow-auto p-6">
+		<div class="flex-1 overflow-auto p-4 md:p-6">
 			<div v-if="task.description" class="prose prose-invert max-w-none whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
 				{{ task.description }}
 			</div>
@@ -89,7 +89,7 @@ function cycleStatus() {
 
 		<!-- Footer -->
 		<div class="border-t border-border p-4">
-			<div class="flex items-center justify-end">
+			<div class="flex items-center justify-start md:justify-end">
 				<div class="flex items-center gap-3 text-xs text-muted-foreground">
 					<span class="flex items-center gap-1">
 						<PhClock class="h-3 w-3 text-foreground" weight="thin" />

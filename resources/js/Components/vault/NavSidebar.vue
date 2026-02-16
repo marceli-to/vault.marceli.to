@@ -277,7 +277,7 @@ function switchPage(target) {
 			:key="tag.name"
 			@click="navigateTag(tag.name)"
 			:class="[
-			  'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-all',
+			  'flex w-full items-center gap-2 rounded-md px-2 py-1 text-sm transition-all',
 			  filters?.tag === tag.name
 				? getTagColor(tag.name).activeBg + ' ' + getTagColor(tag.name).text
 				: 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
@@ -290,7 +290,7 @@ function switchPage(target) {
 		  <button
 			v-if="hasMoreTags"
 			@click="showAllTags = !showAllTags"
-			class="flex w-full items-center justify-center rounded-md px-2 py-1.5 text-xs text-muted-foreground/60 hover:text-muted-foreground transition-all"
+			class="flex w-full items-center justify-center rounded-md px-2 py-1 text-xs text-muted-foreground/60 hover:text-muted-foreground transition-all"
 		  >
 			{{ showAllTags ? 'Show less' : `Show all (${tags.length})` }}
 		  </button>
