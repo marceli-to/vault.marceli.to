@@ -8,6 +8,7 @@ use App\Actions\Entry\Get as GetAction;
 use App\Actions\Entry\Update as UpdateAction;
 use App\Http\Requests\Entry\Filter as FilterRequest;
 use App\Http\Requests\Entry\Store as StoreRequest;
+use Illuminate\Http\Request;
 use App\Http\Requests\Entry\Update as UpdateRequest;
 use App\Models\Entry;
 use Inertia\Inertia;
