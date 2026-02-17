@@ -5,6 +5,7 @@ return [
         'dashboard',
         'entries.*',
         'tasks.*',
+        'time-entries.*',
         'login',
         'logout',
     ],
