@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { PhLightbulb, PhLink, PhNote, PhPushPin, PhPlus, PhMagnifyingGlass, PhStack, PhTag, PhCheckSquare, PhCircle, PhCircleHalf, PhCheckCircle, PhSun, PhMoon } from '@phosphor-icons/vue'
+import { PhLightbulb, PhLink, PhNote, PhPushPin, PhPlus, PhMagnifyingGlass, PhStack, PhTag, PhCheckSquare, PhCircle, PhCircleHalf, PhCheckCircle, PhSun, PhMoon, PhTimer } from '@phosphor-icons/vue'
 import { Button } from '@/Components/ui/button'
 import { Separator } from '@/Components/ui/separator'
 import { ScrollArea } from '@/Components/ui/scroll-area'
@@ -120,6 +120,8 @@ function navigate(item) {
 function switchPage(target) {
   if (target === 'tasks') {
 	router.get(route('tasks.index'))
+  } else if (target === 'time-entries') {
+	router.get(route('time-entries.index'))
   } else {
 	router.get(route('dashboard'))
   }
@@ -172,6 +174,24 @@ function switchPage(target) {
 			</button>
 		  </TooltipTrigger>
 		  <TooltipContent side="right">Tasks</TooltipContent>
+		</Tooltip>
+	  </TooltipProvider>
+	  <TooltipProvider :delay-duration="0">
+		<Tooltip>
+		  <TooltipTrigger asChild>
+			<button
+			  @click="switchPage('time-entries')"
+			  :class="[
+				'flex h-10 w-10 items-center justify-center rounded-lg transition-all',
+				page === 'time-entries'
+				  ? 'bg-amber-500/20 text-amber-600 dark:bg-violet-500/15 dark:text-violet-400'
+				  : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+			  ]"
+			>
+			  <PhTimer :class="['h-5 w-5', page === 'time-entries' ? 'text-amber-600 dark:text-violet-400' : 'text-foreground']" weight="thin" />
+			</button>
+		  </TooltipTrigger>
+		  <TooltipContent side="right">Time Entries</TooltipContent>
 		</Tooltip>
 	  </TooltipProvider>
 	</div>
